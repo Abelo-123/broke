@@ -46,7 +46,7 @@ function App() {
   
   
                               const { error } = await supabase
-                                  .from('users')
+                                  .from('customers')
                                   .insert([
                                       {id:11, name: user.first_name }
                                   ]);
