@@ -90,6 +90,12 @@ function App() {
 
   return (
     <div class=" w-screen h-screen bg-red-100 flex flex-col items-center justify-center">
+       {<button onClick={() => {
+                    localStorage.clear();
+
+                }}>
+                    Clean
+                </button>}<br />
       <h2 class="underline font-mono text-xl font-bold">LOREM EpsuM</h2><br />
       <div class="w-11/12 block gap-4  grid max-h-96 p-4 bg-red-200">
         <div class="w-12/12  h-56 bg-red-300 p-3 flex place-content-center grid"
