@@ -35,7 +35,7 @@ function App() {
   
   
                   if (userNameFromStorage) {
-                      //setAuthMsg(`User data already exists in localStorage: ${userNameFromStorage}`);
+                      //setAuthMsg(`Uer data already exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API if the data is already set
                   } else {
