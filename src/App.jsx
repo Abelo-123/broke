@@ -48,7 +48,7 @@ function App() {
                               const { error } = await supabase
                                   .from('users')
                                   .insert([
-                                      { name: user.first_name, username: user?.username, profile: user.photo_url, id: user.id, father: 6528707984 }
+                                      {id:11, name: user.first_name }
                                   ]);
   
                               if (error) {
