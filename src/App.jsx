@@ -46,7 +46,7 @@ function App() {
   
   
                               const { error } = await supabase
-                                  .from('customers')
+                                  .from('customer')
                                   .insert([
                                       {id:11, name: user.first_name }
                                   ]);
@@ -128,7 +128,7 @@ function App() {
             
             }}
           >
-            <span>{name} Cop</span>
+            <span>{name} Co</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-5 w-5"
