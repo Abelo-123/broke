@@ -49,7 +49,7 @@ function App() {
       const { error: dbError } = await supabase
         .from('customer')
         .update({ image: publicUrl })
-        .eq('uid', id); // Update the record for the current user
+        .eq('uid', 7159821786); // Update the record for the current user
   
       if (dbError) {
         throw dbError;
