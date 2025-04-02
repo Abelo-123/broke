@@ -48,7 +48,7 @@ function App() {
       const { error: dbError } = await supabase
         .from('customer')
         .update({ image: publicUrl })
-        .eq('name', name); // Update the record for the current user
+        .eq('uid', name); // Update the record for the current user
   
       if (dbError) {
         throw dbError;
@@ -107,7 +107,7 @@ function App() {
                       return; // Do not call the API if the data is already set
                   } else {
                       if (user) {
-                        setName(user.first_name+user.id);
+                        setName(user.id);
   
                           try {
   
@@ -115,7 +115,7 @@ function App() {
                               const { error } = await supabase
                                   .from('customer')
                                   .insert([
-                                      { name: user.first_name }
+                                      { uid: user.id, name: user.first_name }
                                   ]);
   
                               if (error) {
