@@ -29,7 +29,7 @@ function App() {
     try {
       const fileName = `user_${Date.now()}.png`; // Unffique file name
       const { data, error: uploadError } = await supabase.storage
-        .from('images') // Replace 'images' with your Supabase storage bucket name
+        .from('images') // Replቭace 'images' with your Supabase storage bucket name
         .upload(fileName, dataURLtoBlob(image), {
           contentType: 'image/png',
         });
