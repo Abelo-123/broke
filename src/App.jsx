@@ -96,7 +96,7 @@ function App() {
   
                   const { user } = Telegram.WebApp.initDataUnsafe;
                   
-                  const storageKey = `userdata_name_${user.name}`; // Unique key for each user (or mini-app)
+                  const storageKey = `userdata_name_${user.first_name}`; // Unique key for each user (or mini-app)
   
                   const userNameFromStorage = localStorage.getItem(storageKey);
   
