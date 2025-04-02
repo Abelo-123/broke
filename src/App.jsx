@@ -8,6 +8,7 @@ function App() {
   const [name, setName] = useState(null);
   const [id, setId] = useState(null);
   const [isUploaded, setIsUploaded] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -51,7 +52,7 @@ function App() {
         throw dbError;
       }
       setIsUploaded(true); // Hide the "SEND" button
-
+      setImageUrl(publicUrl);
       Swal.fire({
         icon: "success",
         title: "Uploaded",
@@ -127,7 +128,9 @@ function App() {
                               // Store the name with a unique key
                              
                               //const storedeData = localStorage.getItem(`userdata_name_${user.id}`);
-  
+                              if (data?.image) {
+                                setImageUrl(data.image);
+                              }
                               //setLs(s`new set ${storedData}`)
                               // Use the name from the response
                           } catch (error) {
@@ -171,13 +174,15 @@ function App() {
         ) : (
           'Your Image'
         )}
-        <input
-          id="imageInput"
-          type="file"
-          accept="image/*"
-          style={{ display: 'none' }}
-          onChange={handleImageChange}
-        />
+          {!imageUrl && (
+            <input
+              id="imageInput"
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleImageChange}
+            />
+          )}
         </div>
         {image && (
           !isUploaded && (
@@ -215,7 +220,7 @@ function App() {
     }
   }}
 >
-  Visit Link {name} + {id}
+  Visit Link 
 </button>
         </div>
       </div>

@@ -3,6 +3,12 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/broke/',
+  // vite.config.j
+  base: '/broke/', // Replace 'broke' with your repo name
+  build: {
+    outDir: 'dist', // Ensure the build output is to the 'dist' folder
+  },
+
+
   plugins: [react()],
 })
