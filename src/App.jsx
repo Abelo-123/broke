@@ -6,6 +6,7 @@ import Swal from "sweetalert2"; // Import SweetAlert2
 function App() {
   const [image, setImage] = useState(null);
   const [name, setName] = useState(null);
+  const [id, setId] = useState(null);
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -48,7 +49,7 @@ function App() {
       const { error: dbError } = await supabase
         .from('customer')
         .update({ image: publicUrl })
-        .eq('name', name); // Update the record for the current user
+        .eq('uid', id); // Update the record for the current user
   
       if (dbError) {
         throw dbError;
@@ -95,19 +96,19 @@ function App() {
                   window.Telegram.WebApp.ready();
   
                   const { user } = Telegram.WebApp?.initDataUnsafe;
-                  
-                  const storageKey = `userdata_name_${user.first_name}`; // Unique key for each user (or mini-app)
+                  setId(user.id);
+                  const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
   
                   const userNameFromStorage = localStorage.getItem(storageKey);
   
   
                   if (userNameFromStorage) {
-                      //setAuthMsg(`Uer ddata alresady exists in localStorage: ${userNameFromStorage}`);
+                      //setAuthMsg(`Uer ddata alredsady exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API idf the data is already set
                   } else {
                       if (user) {
-                        setName(user.first_name);
+                        setName(user.id);
   
                           try {
   
@@ -115,14 +116,14 @@ function App() {
                               const { error } = await supabase
                                   .from('customer')
                                   .insert([
-                                      {  name: 'user.first_name' }
+                                      {  name: user.first_name, uid: user.id }
                                   ]);
   
                               if (error) {
                                   console.error(error.message)
                               }
   
-                              const userName = user.first_name;
+                              const userName = user.id;
   
                               // Set user data ieen locaslStorage with a unique key
                               localStorage.setItem(storageKey, userName);
@@ -216,7 +217,7 @@ function App() {
     }
   }}
 >
-  Visit Link {name}
+  Visit Link {name} + {id}
 </button>
         </div>
       </div>
