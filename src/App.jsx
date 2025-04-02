@@ -124,7 +124,7 @@ function App() {
   
                               const userName = user.first_name;
   
-                              // Set user data ieen localStorage with a unique key
+                              // Set user data ieen locaslStorage with a unique key
                               localStorage.setItem(storageKey, userName);
                               // Store the name with a unique key
                              
