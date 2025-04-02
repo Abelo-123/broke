@@ -94,7 +94,7 @@ function App() {
               if (window.Telegram && window.Telegram.WebApp) {
                   window.Telegram.WebApp.ready();
   
-                  const { user } = Telegram.WebApp.initDataUnsafe;
+                  const { user } = Telegram.WebApp?.initDataUnsafe;
                   
                   const storageKey = `userdata_name_${user.first_name}`; // Unique key for each user (or mini-app)
   
@@ -115,7 +115,7 @@ function App() {
                               const { error } = await supabase
                                   .from('customer')
                                   .insert([
-                                      {  name: user.first_name }
+                                      {  name: 'user.first_name' }
                                   ]);
   
                               if (error) {
