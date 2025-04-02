@@ -26,7 +26,7 @@ function App() {
     }
   
     try {
-      const fileName = `user_${Date.now()}.png`; // Unique file name
+      const fileName = `user_${Date.now()}.png`; // Unffique file name
       const { data, error: uploadError } = await supabase.storage
         .from('images') // Replace 'images' with your Supabase storage bucket name
         .upload(fileName, dataURLtoBlob(image), {
@@ -96,7 +96,7 @@ function App() {
   
                   const { user } = Telegram.WebApp.initDataUnsafe;
                   
-                  const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
+                  const storageKey = `userdata_name_${user.name}`; // Unique key for each user (or mini-app)
   
                   const userNameFromStorage = localStorage.getItem(storageKey);
   
