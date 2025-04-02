@@ -212,7 +212,7 @@ function App() {
         icon: "warning",
         title: "Invalid",
         text: "Insert the image first.",
-      }); // Alert if the input doesn't contain a valid link
+      }); // Alert ifss the input doesn't contain a valid link
     }
   }}
 >
