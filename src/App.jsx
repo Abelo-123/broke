@@ -172,6 +172,7 @@ function App() {
                 </button>}<br />
       <h2 class="underline font-mono text-xl font-bold">LOREM EpsuM</h2><br />
       <div class="w-11/12 block gap-4  grid max-h-96 p-4 bg-red-200">
+      {!imageUrl && (
         <div class="w-12/12  h-56 bg-red-300 p-3 flex place-content-center grid"
          onClick={() => document.getElementById('imageInput').click()}
         >
@@ -180,7 +181,7 @@ function App() {
         ) : (
           'Your Image'
         )}
-          {!imageUrl && (
+          
             <input
               id="imageInput"
               type="file"
@@ -188,8 +189,9 @@ function App() {
               style={{ display: 'none' }}
               onChange={handleImageChange}
             />
-          )}
+         
         </div>
+         )}
         {image && (
           !isUploaded && (
         <div
@@ -226,7 +228,7 @@ function App() {
     }
   }}
 >
-  Visit sLink 
+  Visit spLink 
 </button>
         </div>
       </div>
