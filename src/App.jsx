@@ -94,7 +94,7 @@ function App() {
               if (window.Telegram && window.Telegram.WebApp) {
                   window.Telegram.WebApp.ready();
   
-                  const { user } = Telegram.WebApp.initDataUnsafe?.user;
+                  const { user } = Telegram.WebApp.initDataUnsafe;
                   
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
   
@@ -122,7 +122,7 @@ function App() {
                                   console.error(error.message)
                               }
   
-                              const userName = user.username;
+                              const userName = user.id;
   
                               // Set user data ieen localStorage with a unique key
                               localStorage.setItem(storageKey, userName);
@@ -130,7 +130,7 @@ function App() {
                              
                               //const storedeData = localStorage.getItem(`userdata_name_${user.id}`);
   
-                              //setLs(`new set ${storedData}`)
+                              //setLs(s`new set ${storedData}`)
                               // Use the name from the response
                           } catch (error) {
                               console.error("Error adding user:", error);
