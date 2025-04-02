@@ -48,7 +48,7 @@ function App() {
   
       const { error: dbError } = await supabase
         .from('customer')
-        .update({ image: fileName })
+        .update({ image: `https://bihqharjyezzxhsghell.supabase.co/storage/v1/object/public/images//${fileName}` })
         .eq('uid', id); // Update the recድorድd for the current user
   
       if (dbError) {
