@@ -7,6 +7,8 @@ function App() {
   const [image, setImage] = useState(null);
   const [name, setName] = useState(null);
   const [id, setId] = useState(null);
+  const [isUploaded, setIsUploaded] = useState(false);
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -38,23 +40,18 @@ function App() {
         throw uploadError;
       }
   
-      // const { publicUrl, error: urlError } = supabase.storage
-      //   .from('images')
-      //   .getPublicUrl(fileName);
-  
-      // if (urlError) {
-      //   throw urlError;
-      // }
+ 
   
       const { error: dbError } = await supabase
         .from('customer')
         .update({ image: `https://bihqharjyezzxhsghell.supabase.co/storage/v1/object/public/images//${fileName}` })
-        .eq('uid', id); // Update the recድorድd for the current user
+        .eq('uid', id); // Upddate the recድorድd for the current user
   
       if (dbError) {
         throw dbError;
       }
-  
+      setIsUploaded(true); // Hide the "SEND" button
+
       Swal.fire({
         icon: "success",
         title: "Uploaded",
@@ -183,13 +180,14 @@ function App() {
         />
         </div>
         {image && (
+          !isUploaded && (
         <div
         class="w-full bg-red-400 rounded-lg p-4 py-4 text-center cursor-pointer animated-button"
         onClick={handleImageUpload}
       >
         SEND
       </div>
-      
+          )
         )}
         <div class="flex gap-3">
           <input
