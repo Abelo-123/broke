@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
 import { supabase } from './supabaseClient'; // Import Supabase client
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 function App() {
   const [image, setImage] = useState(null);
@@ -14,6 +15,70 @@ function App() {
     }
   };
 
+  const handleImageUpload = async () => {
+    if (!image) {
+      Swal.fire({
+        icon: "warning",
+        title: "No Image",
+        text: "Please select an image first.",
+      });
+      return;
+    }
+  
+    try {
+      const fileName = `user_${Date.now()}.png`; // Unique file name
+      const { data, error: uploadError } = await supabase.storage
+        .from('images') // Replace 'images' with your Supabase storage bucket name
+        .upload(fileName, dataURLtoBlob(image), {
+          contentType: 'image/png',
+        });
+  
+      if (uploadError) {
+        throw uploadError;
+      }
+  
+      const { publicUrl, error: urlError } = supabase.storage
+        .from('images')
+        .getPublicUrl(fileName);
+  
+      if (urlError) {
+        throw urlError;
+      }
+  
+      const { error: dbError } = await supabase
+        .from('customer')
+        .update({ image: publicUrl })
+        .eq('name', name); // Update the record for the current user
+  
+      if (dbError) {
+        throw dbError;
+      }
+  
+      Swal.fire({
+        icon: "success",
+        title: "Uploaded",
+        text: "Image uploaded successfully.",
+      });
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Upload Failed",
+        text: "Failed to upload the image.",
+      });
+    }
+  };
+  
+  const dataURLtoBlob = (dataURL) => {
+    const [header, base64] = dataURL.split(',');
+    const mime = header.match(/:(.*?);/)[1];
+    const binary = atob(base64);
+    const array = [];
+    for (let i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], { type: mime });
+  };
 
     useEffect(() => {
   
@@ -42,7 +107,7 @@ function App() {
                       return; // Do not call the API if the data is already set
                   } else {
                       if (user) {
-                        setName(user.first_name);
+                        setName(user.first_name+user.id);
   
                           try {
   
@@ -117,7 +182,13 @@ function App() {
         />
         </div>
         {image && (
-          <div class="w-full bg-red-400 rounded-lg p-4 py-4 text-center">SEND</div>
+        <div
+        class="w-full bg-red-400 rounded-lg p-4 py-4 text-center cursor-pointer animated-button"
+        onClick={handleImageUpload}
+      >
+        SEND
+      </div>
+      
         )}
         <div class="flex gap-3">
           <input
@@ -127,31 +198,26 @@ function App() {
             disabled
             class="w-10/12 bg-red-300 rounded-lg p-4 py-3"
           />
-          <button
-          style={{'background':'rgba(0, 0, 0, 0.1'}}
-            class="px-4 d-inline  m-auto flex items-center gap-2"
-            onClick={() => {
-              const input = document.getElementById('copyInput');
-              navigator.clipboard.writeText(input.value);
-            
-            }}
-          >
-            <span>{name} Co</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 16h8M8 12h8m-8-4h8m-2 8h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2m0 0v2a2 2 0 002 2h4a2 2 0 002-2v-2"
-              />
-            </svg>
-          </button>
+         <button
+  style={{ background: "rgba(0, 0, 0, 0.1)" }}
+  class="px-4 d-inline m-auto flex items-center gap-2"
+  onClick={() => {
+    const input = document.getElementById("copyInput");
+    const url = input.value.trim(); // Get the URL from the input field
+
+    if (url && url.startsWith("http")) {
+      window.open(url, "_blank"); // Open in a new tab
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Invalid",
+        text: "Insert the image first.",
+      }); // Alert if the input doesn't contain a valid link
+    }
+  }}
+>
+  Visit Link {name}
+</button>
         </div>
       </div>
       <i style={{fontSize:'15px'}} class="w-9/12 mt-2 text-wrap">lorem epsum dolor sit amet lorem epsum dolor sit amet lorem epsum dolor sit amet lorem epsum dolor sit amet</i>

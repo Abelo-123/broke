@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
+
+@keyframes softBounce {
+  0%, 100% {
+    transform: translateY(0);
+    background-color: #f87171; /* Red-400 */
+  }
+  50% {
+    transform: translateY(-5px); /* Slight bounce */
+    background-color: #dc2626; /* Red-600 */
+  }
+}
+
+.animated-button {
+  animation: softBounce 1.5s ease-in-out infinite;
+  transition: background-color 0.3s ease-in-out;
+}
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
