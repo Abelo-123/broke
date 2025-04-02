@@ -226,7 +226,7 @@ function App() {
     }
   }}
 >
-  Visit Link 
+  Visit sLink 
 </button>
         </div>
       </div>
