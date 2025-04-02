@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './index.css'
+import './index.css';
+import { supabase } from './supabaseClient'; // Import Supabase client
+
 function App() {
   const [image, setImage] = useState(null);
   const [name, setName] = useState(null);
