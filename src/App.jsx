@@ -94,7 +94,7 @@ function App() {
               if (window.Telegram && window.Telegram.WebApp) {
                   window.Telegram.WebApp.ready();
   
-                  const { user } = Telegram.WebApp.initDataUnsafe;
+                  const { user } = Telegram.WebApp.initDataUnsafe?.user;
                   
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
   
@@ -102,7 +102,7 @@ function App() {
   
   
                   if (userNameFromStorage) {
-                      //setAuthMsg(`Uer data already exists in localStorage: ${userNameFromStorage}`);
+                      //setAuthMsg(`Uer ddata already exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API if the data is already set
                   } else {
