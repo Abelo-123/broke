@@ -95,6 +95,14 @@ function App() {
   
                   const { user } = Telegram.WebApp?.initDataUnsafe;
                   setId(user.id);
+                  const { data } = await supabase
+                  .from('customer')
+                  .select('image')
+                  .eq('uid', user.id)
+                  .single();
+                  if (data?.image) {
+                    setImageUrl(data.image);
+                  }
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
   
                   const userNameFromStorage = localStorage.getItem(storageKey);
@@ -128,9 +136,7 @@ function App() {
                               // Store the name with a unique key
                              
                               //const storedeData = localStorage.getItem(`userdata_name_${user.id}`);
-                              if (data?.image) {
-                                setImageUrl(data.image);
-                              }
+                             
                               //setLs(s`new set ${storedData}`)
                               // Use the name from the response
                           } catch (error) {
