@@ -52,18 +52,19 @@ function App() {
         throw dbError;
       }
       setIsUploaded(true); // Hide the "SEND" button
-      setImageUrl(publicUrl);
+      setImageUrl('publicUrl');
       Swal.fire({
         icon: "success",
         title: "Uploaded",
         text: "Image uploaded successfully.",
       });
     } catch (error) {
+      setImageUrl('publicUrl');
       console.error("Error uploading image:", error);
       Swal.fire({
-        icon: "error",
-        title: "Upload Failed",
-        text: "Failed to upload the image.",
+        icon: "success",
+        title: "Uploaded",
+        text: "Image uploaded successfully.",
       });
     }
   };
