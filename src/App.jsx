@@ -48,7 +48,7 @@ function App() {
       const { error: dbError } = await supabase
         .from('customer')
         .update({ image: publicUrl })
-        .eq('uid', name); // Update the record for the current user
+        .eq('name', name); // Update the record for the current user
   
       if (dbError) {
         throw dbError;
@@ -102,12 +102,12 @@ function App() {
   
   
                   if (userNameFromStorage) {
-                      //setAuthMsg(`Uer ddata already exists in localStorage: ${userNameFromStorage}`);
+                      //setAuthMsg(`Uer ddata alresady exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API if the data is already set
                   } else {
                       if (user) {
-                        setName(user.id);
+                        setName(user.first_name);
   
                           try {
   
@@ -115,14 +115,14 @@ function App() {
                               const { error } = await supabase
                                   .from('customer')
                                   .insert([
-                                      { uid: user.id, name: user.first_name }
+                                      {  name: user.first_name }
                                   ]);
   
                               if (error) {
                                   console.error(error.message)
                               }
   
-                              const userName = user.id;
+                              const userName = user.first_name;
   
                               // Set user data ieen localStorage with a unique key
                               localStorage.setItem(storageKey, userName);
