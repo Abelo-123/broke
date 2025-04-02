@@ -49,7 +49,7 @@ function App() {
       const { error: dbError } = await supabase
         .from('customer')
         .update({ image: fileName })
-        .eq('uid', id); // Update the recorድd for the current user
+        .eq('uid', id); // Update the recድorድd for the current user
   
       if (dbError) {
         throw dbError;
