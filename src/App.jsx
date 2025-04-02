@@ -38,17 +38,17 @@ function App() {
         throw uploadError;
       }
   
-      const { publicUrl, error: urlError } = supabase.storage
-        .from('images')
-        .getPublicUrl(fileName);
+      // const { publicUrl, error: urlError } = supabase.storage
+      //   .from('images')
+      //   .getPublicUrl(fileName);
   
-      if (urlError) {
-        throw urlError;
-      }
+      // if (urlError) {
+      //   throw urlError;
+      // }
   
       const { error: dbError } = await supabase
         .from('customer')
-        .update({ image: 'publicUrl' })
+        .update({ image: fileName })
         .eq('uid', id); // Update the record for the current user
   
       if (dbError) {
