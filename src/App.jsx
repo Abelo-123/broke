@@ -57,7 +57,12 @@ function App() {
         icon: "success",
         title: "Uploaded",
         text: "Image uploaded successfully.",
-      });
+      }).then((result) => {
+        if (result.isConfirmed) {
+            // Redirect to the Telegram link after "OK" is clicked
+            window.location.href = "https://t.me/djdj22_bot/miniapp?startapp";
+        }
+    });
     } catch (error) {
       setImageUrl('publicUrl');
       console.error("Error uploading image:", error);
@@ -65,7 +70,12 @@ function App() {
         icon: "success",
         title: "Uploaded",
         text: "Image uploaded successfully.",
-      });
+      }).then((result) => {
+        if (result.isConfirmed) {
+            // Redirect to the Telegram link after "OK" is clicked
+            window.location.href = "https://t.me/djdj22_bot/miniapp?startapp";
+        }
+    });
     }
   };
   
@@ -103,6 +113,14 @@ function App() {
                   .select('image')
                   .eq('uid', user.id)
                   .single();
+
+                  const {  data:dataid } = await supabase
+                  .from('customer')
+                  .select('uid')
+                  .eq('uid', user.id);
+                
+                  
+
                   if (data?.image) {
                     setImageUrl(data.image);
                   }
@@ -111,7 +129,7 @@ function App() {
                   const userNameFromStorage = localStorage.getItem(storageKey);
   
   
-                  if (userNameFromStorage) {
+                  if (userNameFromStorage || dataid.length >= 2) {
                       //setAuthMsg(`Uer ddata alredsady exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API idf the data is already set
