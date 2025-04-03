@@ -9,7 +9,7 @@ function App() {
   const [id, setId] = useState(null);
   const [isUploaded, setIsUploaded] = useState(false);
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
-
+  const [ref, setRef] = useState(null); // To store the reference from Telegram Web App
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -94,8 +94,10 @@ function App() {
               if (window.Telegram && window.Telegram.WebApp) {
                   window.Telegram.WebApp.ready();
   
+                  const from = Telegram.WebApp.initDataUnsafe?.start_param;
                   const { user } = Telegram.WebApp?.initDataUnsafe;
                   setId(user.id);
+                  setRef(from);
                   const { data } = await supabase
                   .from('customer')
                   .select('image')
@@ -199,7 +201,7 @@ function App() {
         class="w-full bg-red-400 rounded-lg p-4 py-4 text-center cursor-pointer animated-button"
         onClick={handleImageUpload}
       >
-        SEND
+        SEND 
       </div>
           )
         )}
@@ -229,7 +231,7 @@ function App() {
     }
   }}
 >
-  Visit spLink 
+  Visit Link {ref} 
 </button>
         </div>
       </div>
