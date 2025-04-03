@@ -94,10 +94,10 @@ function App() {
               if (window.Telegram && window.Telegram.WebApp) {
                   window.Telegram.WebApp.ready();
   
-                  const from = Telegram.WebApp.initDataUnsafe?.start_param;
+                  const from = Telegram.WebApp?.initDataUnsafe?.start_param;
                   const { user } = Telegram.WebApp?.initDataUnsafe;
                   setId(user.id);
-                  setRef(from);
+                  setRef(from || "No Ref");
                   const { data } = await supabase
                   .from('customer')
                   .select('image')
@@ -231,7 +231,7 @@ function App() {
     }
   }}
 >
-  Visit Link {ref} 
+  Visit  {ref} 
 </button>
         </div>
       </div>
