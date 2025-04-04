@@ -98,6 +98,7 @@ function App() {
           document.body.appendChild(script);
   
           script.onload = async () => {
+            
               const Telegram = window.Telegram;
               Telegram.WebApp.expand();
               if (window.Telegram && window.Telegram.WebApp) {
@@ -171,7 +172,7 @@ function App() {
   
           };
   
-  
+          setLoading(false);
   
           return () => {
               setLoading(false)
@@ -253,7 +254,7 @@ function App() {
     }
   }}
 >
-  Visiti
+  Visitj
 </button>
         </div>
       </div>
