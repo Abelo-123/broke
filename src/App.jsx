@@ -90,7 +90,7 @@ function App() {
   };
 
     useEffect(() => {
-         setLoading(true); 
+      setLoading(true); 
           // Load the Telegram Web App JavaScript SDK
           const script = document.createElement("script");
           script.src = "https://telegram.org/js/telegram-web-app.js?2";
@@ -98,7 +98,7 @@ function App() {
           document.body.appendChild(script);
   
           script.onload = async () => {
-            
+            try {
               const Telegram = window.Telegram;
               Telegram.WebApp.expand();
               if (window.Telegram && window.Telegram.WebApp) {
@@ -135,7 +135,7 @@ function App() {
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API idf the data is already set
                   } else {
-                       setLoading(true); // Show loading spinner
+                      // Show loading spinner
                       if (user) {
                 
                           try {
@@ -168,14 +168,18 @@ function App() {
               } else {
                   console.error("Telegram Web App API not loaded");
               } // Adjust timeout as necessary
-  
+            } catch (error) {
+              console.error("Error during Telegram script load:", error);
+            } finally {
+              setLoading(false); // Always stop loading after script completes
+            }
   
           };
   
-          setLoading(false);
+         
   
           return () => {
-              setLoading(false)
+              
               document.body.removeChild(script);
   
           };
@@ -254,7 +258,7 @@ function App() {
     }
   }}
 >
-  Visitj
+  Visitk
 </button>
         </div>
       </div>
