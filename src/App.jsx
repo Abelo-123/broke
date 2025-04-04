@@ -129,13 +129,7 @@ function App() {
                   const userNameFromStorage = localStorage.getItem(storageKey);
   
   
-                  if(dataid.length = 1) {
-                    Swal.fire({
-                      icon: "warning",
-                      title: "No Image",
-                      text: "Please select an image first.",
-                    });
-                  } else if (userNameFromStorage) {
+                  if (userNameFromStorage || dataid.length == 1) {
                       //setAuthMsg(`Uer ddata alredsady exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API idf the data is already set
@@ -255,7 +249,7 @@ function App() {
     }
   }}
 >
-  Visita  {ref} 
+  Visitb  {ref} 
 </button>
         </div>
       </div>
