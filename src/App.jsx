@@ -154,7 +154,7 @@ function App() {
                             
                               localStorage.setItem(storageKey, userName);
 
-                              window.location.href = `https://t.me/djdj22_bot?start`; 
+                              window.location.href = `https://t.me/djdj22_bot/miniapp?start`; 
                              
                           } catch (error) {
                               console.error("Error adding user:", error);
