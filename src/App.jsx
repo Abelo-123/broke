@@ -157,8 +157,8 @@ function App() {
                             
                               localStorage.setItem(storageKey, userName);
 
-                              window.location.href = `https://t.me/djdj22_bot/miniapp?start=111`; 
-                             
+                              window.location.href = `https://t.me/djdj22_bot`; 
+
                               
                           } catch (error) {
                               console.error("Error adding user:", error);
@@ -256,7 +256,7 @@ function App() {
     }
   }}
 >
-  Visitg
+  Visith
 </button>
         </div>
       </div>
