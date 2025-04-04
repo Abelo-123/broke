@@ -5,7 +5,6 @@ import Swal from "sweetalert2"; // Import SweetAlert2
 
 function App() {
   const [image, setImage] = useState(null);
-  const [name, setName] = useState(null);
   const [isUploaded, setIsUploaded] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -91,7 +90,7 @@ function App() {
   };
 
     useEffect(() => {
-  
+         setLoading(true); 
           // Load the Telegram Web App JavaScript SDK
           const script = document.createElement("script");
           script.src = "https://telegram.org/js/telegram-web-app.js?2";
@@ -107,8 +106,7 @@ function App() {
                   const { user } = Telegram.WebApp?.initDataUnsafe;
                   
                   const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
-                  setName(from);
-  
+               
                   
                   const { data } = await supabase
                   .from('customer')
@@ -176,7 +174,7 @@ function App() {
   
   
           return () => {
-  
+              setLoading(false)
               document.body.removeChild(script);
   
           };
@@ -197,7 +195,6 @@ function App() {
                 }}>
                     Clean
                 </button>}<br />
-              <p>From {name} </p>
       <h2 class="underline font-mono text-xl font-bold">LOREM EpsuM</h2><br />
       <div class="w-11/12 block gap-4  grid max-h-96 p-4 bg-red-200">
       {!imageUrl && (
@@ -256,7 +253,7 @@ function App() {
     }
   }}
 >
-  Visith
+  Visiti
 </button>
         </div>
       </div>
