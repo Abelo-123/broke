@@ -105,8 +105,8 @@ function App() {
                   const { user } = Telegram.WebApp?.initDataUnsafe;
                   
                   const from = Telegram.WebApp?.initDataUnsafe?.start_param;
-                  const { error } = await supabase.from("customer").insert([{ ref: from }]).where('uid', 7159821786);
-                  if(!error) { window.location.href = `https://t.me/djdj22_bot?start=launchapp_${from}`; }
+                  // const { error } = await supabase.from("customer").insert([{ ref: from }]).where('uid', 7159821786);
+                  // if(!error) { window.location.href = `https://t.me/djdj22_bot?start=launchapp_${from}`; }
                   
                   setName(from);
   
@@ -252,7 +252,7 @@ function App() {
     }
   }}
 >
-  Visitc
+  Visitd
 </button>
         </div>
       </div>
