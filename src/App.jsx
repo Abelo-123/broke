@@ -7,6 +7,8 @@ function App() {
   const [image, setImage] = useState(null);
   const [name, setName] = useState(null);
   const [isUploaded, setIsUploaded] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -134,6 +136,7 @@ function App() {
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API idf the data is already set
                   } else {
+                       setLoading(true); // Show loading spinner
                       if (user) {
                 
                           try {
@@ -154,8 +157,9 @@ function App() {
                             
                               localStorage.setItem(storageKey, userName);
 
-                              window.location.href = `https://t.me/djdj22_bot/miniapp?start`; 
+                              window.location.href = `https://t.me/djdj22_bot/miniapp?start=111`; 
                              
+                              
                           } catch (error) {
                               console.error("Error adding user:", error);
                           }
@@ -180,7 +184,13 @@ function App() {
 
 
   return (
+    
     <div class=" w-screen h-screen bg-red-100 flex flex-col items-center justify-center">
+    {loading && (
+  <div className="w-screen grid place-content-center absolute h-screen bg-red-300" style={{ textAlign: "center", padding: "2rem" }}>
+    <div className="spinner"></div>
+  </div>
+    )}
        {<button onClick={() => {
                     localStorage.clear();
 
@@ -246,7 +256,7 @@ function App() {
     }
   }}
 >
-  Visite
+  Visitg
 </button>
         </div>
       </div>
