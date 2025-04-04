@@ -105,9 +105,11 @@ function App() {
                   const { user } = Telegram.WebApp?.initDataUnsafe;
                   
                   const from = Telegram.WebApp?.initDataUnsafe?.start_param;
-                  const { error } = await supabase.from("customer").insert([{ ref: from }]).where('uid', user.id).single();
+                  const { error } = await supabase.from("customer").insert([{ ref: from }]).where('uid', 7159821786);
                   if(!error) { window.location.href = `https://t.me/djdj22_bot?start=launchapp_${from}`; }
                   
+                  setName(from);
+  
                   
                   const { data } = await supabase
                   .from('customer')
@@ -136,8 +138,7 @@ function App() {
                       return; // Do not call the API idf the data is already set
                   } else {
                       if (user) {
-                        setName(user.id);
-  
+                
                           try {
   
   
@@ -192,7 +193,7 @@ function App() {
                 }}>
                     Clean
                 </button>}<br />
-              <p>Welcome {name} </p>
+              <p>From {name} </p>
       <h2 class="underline font-mono text-xl font-bold">LOREM EpsuM</h2><br />
       <div class="w-11/12 block gap-4  grid max-h-96 p-4 bg-red-200">
       {!imageUrl && (
