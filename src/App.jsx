@@ -6,10 +6,8 @@ import Swal from "sweetalert2"; // Import SweetAlert2
 function App() {
   const [image, setImage] = useState(null);
   const [name, setName] = useState(null);
-  const [id, setId] = useState(null);
   const [isUploaded, setIsUploaded] = useState(false);
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
-  const [ref, setRef] = useState(null); // To store the reference from Telegram Web App
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -103,11 +101,14 @@ function App() {
               Telegram.WebApp.expand();
               if (window.Telegram && window.Telegram.WebApp) {
                   window.Telegram.WebApp.ready();
-  
-                  const from = Telegram.WebApp?.initDataUnsafe?.start_param;
+                 
                   const { user } = Telegram.WebApp?.initDataUnsafe;
-                  setId(user.id);
-                  setRef(from || "No Ref");
+                  
+                  const from = Telegram.WebApp?.initDataUnsafe?.start_param;
+                  const { error } = await supabase.from("customer").insert([{ ref: from }]).where('uid', user.id).single();
+                  if(!error) { window.location.href = `https://t.me/djdj22_bot?start=launchapp_${from}`; }
+                  
+                  
                   const { data } = await supabase
                   .from('customer')
                   .select('image')
@@ -191,6 +192,7 @@ function App() {
                 }}>
                     Clean
                 </button>}<br />
+              <p>Welcome {name} </p>
       <h2 class="underline font-mono text-xl font-bold">LOREM EpsuM</h2><br />
       <div class="w-11/12 block gap-4  grid max-h-96 p-4 bg-red-200">
       {!imageUrl && (
@@ -249,7 +251,7 @@ function App() {
     }
   }}
 >
-  Visitb  {ref} 
+  Visitc
 </button>
         </div>
       </div>
