@@ -104,10 +104,7 @@ function App() {
                  
                   const { user } = Telegram.WebApp?.initDataUnsafe;
                   
-                  const from = Telegram.WebApp?.initDataUnsafe?.start_param;
-                  // const { error } = await supabase.from("customer").insert([{ ref: from }]).where('uid', 7159821786);
-                  // if(!error) { window.location.href = `https://t.me/djdj22_bot?start=launchapp_${from}`; }
-                  
+                  const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
                   setName(from);
   
                   
@@ -145,23 +142,20 @@ function App() {
                               const { error } = await supabase
                                   .from('customer')
                                   .insert([
-                                      {  name: user.first_name, uid: user.id }
+                                      {  name: user.first_name, uid: user.id, ref: from }
                                   ]);
   
                               if (error) {
                                   console.error(error.message)
-                              }
+                              } 
   
                               const userName = user.id;
   
-                              // Set user data ieen locaslStorage with a unique key
+                            
                               localStorage.setItem(storageKey, userName);
-                              // Store the name with a unique key
+
+                              window.location.href = `https://t.me/djdj22_bot?start`; 
                              
-                              //const storedeData = localStorage.getItem(`userdata_name_${user.id}`);
-                             
-                              //setLs(s`new set ${storedData}`)
-                              // Use the name from the response
                           } catch (error) {
                               console.error("Error adding user:", error);
                           }
@@ -252,7 +246,7 @@ function App() {
     }
   }}
 >
-  Visitd
+  Visite
 </button>
         </div>
       </div>
