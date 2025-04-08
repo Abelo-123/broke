@@ -169,11 +169,22 @@ function App() {
                   .select('uid')
                   .eq('uid', user.id);
                 
-                  
+                  const { data: userData, error: userDataError } = await supabase
+                  .from('customer')
+                  .select('cost')
+                  .eq('uid', 6521111774)  // Get the cost for the current user
+                  .limit(1);  // Ensure we only fetch one row (since the user id is unique)
+
+                  if (userDataError) {
+                    console.error('Error fetching user data:', userDataError);
+                    return;
+                  }
 
                   if (data?.image) {
                     setImageUrl(data.image);
                   }
+                  const userCost = userData[0].cost;  // Extract the cost value from the fetched data
+
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
   
                   const userNameFromStorage = localStorage.getItem(storageKey);
@@ -193,7 +204,7 @@ function App() {
                               const { error } = await supabase
                                   .from('customer')
                                   .insert([
-                                      {  name: user.first_name, uid: user.id, ref: from }
+                                      {  name: user.first_name, uid: user.id, ref: from, cost:userCost  }
                                   ]);
   
                               if (error) {
@@ -376,7 +387,7 @@ function App() {
     }
   }}
 >
-  Visitl
+  Visit
 </button>
         </div>
       </div>
