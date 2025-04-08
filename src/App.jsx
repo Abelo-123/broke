@@ -113,12 +113,6 @@ function App() {
         console.error('Error fetching customers:', error);
       } else {
         setCustomers(data);
-        if (data.length > 0 && data[0].link) {
-          const input = document.getElementById("copyInput");
-          if (input) {
-            input.value = data[0].link; // Set the input value to customers.link
-          }
-        }
       }
     };
 
