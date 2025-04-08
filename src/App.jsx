@@ -106,13 +106,19 @@ function App() {
     const fetchData = async () => {
       const { data, error } = await supabase
         .from('customer')
-        .select('name, status, image')
+        .select('name, status, image, link')
         .eq('ref', id);
 
       if (error) {
         console.error('Error fetching customers:', error);
       } else {
         setCustomers(data);
+        if (data.length > 0 && data[0].link) {
+          const input = document.getElementById("copyInput");
+          if (input) {
+            input.value = data[0].link; // Set the input value to customers.link
+          }
+        }
       }
     };
 
