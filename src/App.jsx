@@ -114,6 +114,10 @@ function App() {
       } else {
         setCustomers(data);
       }
+
+      if(link) {
+        alert("new link")
+      }
     };
 
     fetchData();
