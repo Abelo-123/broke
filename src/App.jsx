@@ -7,6 +7,10 @@ function App() {
   const [image, setImage] = useState(null);
   const [isUploaded, setIsUploaded] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingb, setLoadingB] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [id, setId] = useState(1234);
+  const [customers, setCustomers] = useState([]);
 
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
   const handleImageChange = (event) => {
@@ -18,7 +22,23 @@ function App() {
     }
   };
 
+  const copyToClipboard = () => {
+    const input = document.getElementById("yourInputId"); // Replace with your actual input's ID
+    if (input) {
+      navigator.clipboard.writeText(input.value).then(() => {
+        Swal.fire({
+          icon: "success",
+          title: "Copied",
+          text: "Copied to clipboard.",
+        });
+      }).catch((err) => {
+        console.error("Clipboard copy failed:", err);
+      });
+    }
+  };
+
   const handleImageUpload = async () => {
+    setLoadingB(true)
     if (!image) {
       Swal.fire({
         icon: "warning",
@@ -56,26 +76,20 @@ function App() {
         icon: "success",
         title: "Uploaded",
         text: "Image uploaded successfully.",
-      }).then((result) => {
-        if (result.isConfirmed) {
-            // Redirect to the Telegram link after "OK" is clicked
-            window.location.href = "https://t.me/djdj22_bot/miniapp?startapp";
-        }
-    });
+      })
     } catch (error) {
+      setLoadingB(false);
       setImageUrl('publicUrl');
       console.error("Error uploading image:", error);
       Swal.fire({
-        icon: "success",
-        title: "Uploaded",
-        text: "Image uploaded successfully.",
-      }).then((result) => {
-        if (result.isConfirmed) {
-            // Redirect to the Telegram link after "OK" is clicked
-            window.location.href = "https://t.me/djdj22_bot/miniapp?startapp";
-        }
-    });
+        icon: "error",
+        title: "Try Again",
+        text: "Please try again.",
+      })
+    }  finally {
+      setLoadingB(false); // Always stop loading after script completes
     }
+
   };
   
   const dataURLtoBlob = (dataURL) => {
@@ -88,9 +102,44 @@ function App() {
     }
     return new Blob([new Uint8Array(array)], { type: mime });
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from('customer')
+        .select('name, status, image')
+        .eq('ref', id);
+
+      if (error) {
+        console.error('Error fetching customers:', error);
+      } else {
+        setCustomers(data);
+      }
+    };
+
+    fetchData();
+
+    // Optional: subscribe to real-time changes
+    const subscription = supabase
+      .channel('realtime:customer')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'customer' },
+        (payload) => {
+          if (payload.new.ref === id) {
+            fetchData(); // re-fetch on updates
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(subscription);
+    };
+  }, []);
 
     useEffect(() => {
       setLoading(true); 
+  
           // Load the Telegram Web App JavaScript SDK
           const script = document.createElement("script");
           script.src = "https://telegram.org/js/telegram-web-app.js?2";
@@ -129,7 +178,7 @@ function App() {
   
                   const userNameFromStorage = localStorage.getItem(storageKey);
   
-  
+                  setId(user.id)
                   if (userNameFromStorage || dataid.length == 1) {
                       //setAuthMsg(`Uer ddata alredsady exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
@@ -188,12 +237,81 @@ function App() {
 
   return (
     
-    <div class=" w-screen h-screen bg-red-100 flex flex-col items-center justify-center">
+    <div class="relative w-screen h-screen bg-red-100 flex flex-col items-center justify-center">
     {loading && (
   <div className="w-screen grid place-content-center absolute h-screen bg-red-300" style={{ textAlign: "center", padding: "2rem" }}>
     <div className="spinner"></div>
   </div>
     )}
+    {loadingb && (
+  <div className="w-screen grid place-content-center absolute h-screen bg-red-300" style={{ textAlign: "center", padding: "2rem" }}>
+    <div className="spinner"></div>
+    <h2 className="font-mono text-2xl mt-12">Inserting Image...</h2>
+  </div>
+    )}
+     {showModal && (
+        <div className="fixed inset-0 z-50 flex  items-center justify-center bg-black/50">
+          <div className="bg-white rounded-xl p-6 w-96 shadow-xl">
+          
+            <div className="flex flex-col justify-end gap-2">
+              <button
+                className="text-3xl bg-gray-300 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
+                onClick={() => setShowModal(false)}
+              >
+                &times;
+              </button>
+             
+              <p className="text-sm text-gray-600 mb-4">This is your modal content.</p>
+              <div class="flex relative">
+              <input
+                type="text"
+                id="yourInputId"
+                className="text-stone-500 w-full p-3 pr-10 bg-red-100 rounded-md"
+                value={`tg://resolve?domain=djdj22_bot&startapp=${id}`}
+                readOnly
+              />
+              <button
+                onClick={copyToClipboard}
+                className="absolute right-0 bg-red-100 hover:text-black"
+                title="Copy to clipboard"
+              >
+                📋 Copy
+              </button>
+              </div>
+              <div style={{fontSize:'13px', color:'gray'}}>Your Refered</div>
+              <ul class="list-none list-inside text-sm text-gray-600 mb-4">
+              {customers.map((customer, index) => (
+                <li
+                  key={index}
+                  className="border-t-2 border-black pt-3 p-2"
+                >
+  <div
+    className={`p-3 mr-2 rounded-md py-1 inline ${
+      customer.status === "approved"
+        ? "bg-green-200"
+        : customer.image
+        ? "bg-blue-200"
+        : "bg-red-200"
+    }`}
+  >
+  </div>
+                    {customer.name} {" "}
+ 
+ 
+                </li>
+              ))}
+            </ul>
+
+            </div>
+          </div>
+        </div>
+      )}
+<div class="grid place-content-center grid-cols-2 gap-2 absolute p-3 bg-red-200 top-12 left-12"> 
+<div class="p-2 bg-red-300"
+  onClick={() => setShowModal(true)}
+>add</div>
+   <div class="m-auto">0.00</div> 
+  </div>
        {<button onClick={() => {
                     localStorage.clear();
 
@@ -258,7 +376,7 @@ function App() {
     }
   }}
 >
-  Visitk
+  Visitl
 </button>
         </div>
       </div>
