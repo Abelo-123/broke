@@ -106,7 +106,7 @@ function App() {
     const fetchData = async () => {
       const { data, error } = await supabase
         .from('customer')
-        .select('name, status, image, link')
+        .select('name, status, image, user_link')
         .eq('ref', id);
 
       if (error) {
@@ -115,7 +115,7 @@ function App() {
         setCustomers(data);
       }
 
-      if(link) {
+      if(data.user_link) {
         alert("new link")
       }
     };
