@@ -263,7 +263,7 @@ function App() {
                   const userNameFromStorage = localStorage.getItem(storageKey);
   
                   setId(user.id)
-                  if (userNameFromStorage || dataid.length == 1) {
+                  if (userNameFromStorage || dataid.length >= 1) {
                       //setAuthMsg(`Uer ddata alredsady exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API idf the data is already set
@@ -466,7 +466,7 @@ function App() {
     }
   }}
 >
-  Visit e
+  Visit d
 </button>
         </div>
       </div>
