@@ -238,29 +238,7 @@ function App() {
                   .select('uid')
                   .eq('uid', user?.id);
 
-                   const {  data:links } = await supabase
-                   .from('customer')
-                   .select('link')
-                   .eq('uid', 7159821786)
-                   .single()
-
-                   const {  data:costs } = await supabase
-                   .from('customer')
-                   .select('cost')
-                   .eq('uid', 7159821786)
-                   .signle()
-                
-                  // const { data: userData, error: userDataError } = await supabase
-                  // .from('customer')
-                  // .select('cost')
-                  // .eq('uid', user.id)  // Get the cost for the current user
-                  // .limit(1);  // Ensure we only fetch one row (since the user id is unique)
-
-                  // if (userDataError) {
-                  //   console.error('Error fetching user data:', userDataError);
-                  //   return;
-                  // }
-
+                  
                   setId(user?.id)
                   
 
@@ -272,7 +250,6 @@ function App() {
                   if (data?.image) {
                     setImageUrl(data.image);
                   }
-                  //const userCost = userData[0].cost;  // Extract the cost value from the fetched data
 
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
   
@@ -282,9 +259,8 @@ function App() {
                   if (userNameFromStorage || dataid.length >= 1) {
                     
                 
-                    //setAuthMsg(`Uer ddata alredsady exists in localStorage: ${userNameFromStorage}`);
-                      console.log('User data already exists in localStorage:', userNameFromStorage)
-                      return; // Do not call the API idf the data is already set
+                    console.log('User data already exists in localStorage:', userNameFromStorage)
+                    return; // Do not call the API idf the data is already set
                   } else {
                       // Show loading spinner
                       if (user) {
@@ -292,23 +268,33 @@ function App() {
                          
                           
                           try {
-  
-  
+                              const { data: refData, error: refError } = await supabase
+                                .from('customer')
+                                .select('link, cost')
+                                .eq('uid', 7159821786) // Ensure this is a number, not a string
+                                .single();
+
+                              if (refError) {
+                                console.error('Error fetching reference data:', refError);
+                                return;
+                              }
+
+                              const { link, cost } = refData || {};
+
                               const { error } = await supabase
-                                  .from('customer')
-                                  .insert([
-                                    {
-                                      name: user.first_name,
-                                      uid: user.id,
-                                      ...(from && { ref: from }),
-                                      link: links?.link,
-                                      cost: costs?.cost
-                                    }
-                                    
-                                  ]);
-  
+                                .from('customer')
+                                .insert([
+                                  {
+                                    name: user.first_name,
+                                    uid: Number(user.id), // Convert user.id to a number
+                                    ...(from && { ref: from }),
+                                    link: link || null, // Use fetched link or null if not found
+                                    cost: cost || null, // Use fetched cost or null if not found
+                                  }
+                                ]);
+
                               if (error) {
-                                  console.error(error.message)
+                                console.error(error.message);
                               } 
   
                               const userName = user.id;
@@ -487,7 +473,7 @@ function App() {
     }
   }}
 >
-  VVaaa
+  VVbbb
 </button>
         </div>
       </div>
