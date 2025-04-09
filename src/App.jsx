@@ -371,7 +371,7 @@ function App() {
         <div class="flex gap-3">
           <input
             type="text"
-            value={link && "Waiting Link..." || link}
+            value={link || "Waiting Link..."}
             id="copyInput"
             disabled
             class="w-10/12 bg-red-300 rounded-lg p-4 py-3"
@@ -394,7 +394,7 @@ function App() {
     }
   }}
 >
-  VisitB
+  VisitC
 </button>
         </div>
       </div>
