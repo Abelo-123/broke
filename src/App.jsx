@@ -108,100 +108,101 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!id) return; // Ensure id is available before making the query
+      if (!id) return;
+  
       const { data: smmss, error } = await supabase
         .from('customer')
         .select('name, status, image')
-        .eq('ref', id); // Use id here
-
+        .eq('ref', id);
+  
       if (error) {
         console.error('Error fetching customers:', error);
       } else {
         setCustomers(smmss);
       }
     };
-
+  
     fetchData();
-
-    // // Optional: subscribe to real-time changes
-     const subscription = supabase
-       .channel('realtime:customer')
-       .on(
-         'postgres_changes',
-         { event: '*', schema: 'public', table: 'customer' },
-         (payload) => {
-           if (payload.new.ref == id) {
-             fetchData(); // re-fetch on updates
-           }
-         }
-       )
-       .subscribe();
-
-     return () => {
-       supabase.removeChannel(subscription);
-     };
-  }, [id]); // Add id as a dependency
-
+  
+    const refChannel = supabase
+      .channel('realtime:customer-by-ref')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'customer' },
+        (payload) => {
+          if (payload.new?.ref === id) {
+            fetchData();
+          }
+        }
+      )
+      .subscribe();
+  
+    return () => {
+      supabase.removeChannel(refChannel);
+    };
+  }, [id]);
+  
   useEffect(() => {
     const fetchDataByUserId = async (userId) => {
       const { data, error } = await supabase
         .from('customer')
-        .select(' user_link')
+        .select('user_link')
         .eq('uid', userId)
-        .single()
-
+        .single();
+  
       if (error) {
         console.error('Error fetching customer by user ID:', error);
       } else {
-        if (data.user_link) {
-           setLink(data.user_link); // Update link state if user_link exists
-         }
+        if (data?.user_link) {
+          setLink(data.user_link);
+        }
       }
     };
-
-    const script = document.createElement("script");
-    script.src = "https://telegram.org/js/telegram-web-app.js?2";
+  
+    const script = document.createElement('script');
+    script.src = 'https://telegram.org/js/telegram-web-app.js?2';
     script.async = true;
     document.body.appendChild(script);
-
+  
     script.onload = async () => {
       try {
         const Telegram = window.Telegram;
         Telegram.WebApp.expand();
-        if (window.Telegram && window.Telegram.WebApp) {
-          window.Telegram.WebApp.ready();
-
+  
+        if (Telegram && Telegram.WebApp) {
+          Telegram.WebApp.ready();
           const { user } = Telegram.WebApp?.initDataUnsafe;
+  
           if (user?.id) {
-            fetchDataByUserId(user.id); // Fetch data using user.id
+            fetchDataByUserId(user.id);
           }
         } else {
-          console.error("Telegram Web App API not loaded");
+          console.error('Telegram Web App API not loaded');
         }
       } catch (error) {
-        console.error("Error during Telegram script load:", error);
+        console.error('Error during Telegram script load:', error);
       }
     };
-
-        // Realtime subscription for customer table
-        const subscription = supabase
-        .channel('realtime:customer')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'customer' }, (payload) => {
-          // Assuming `id` is available in your component scope, for example, from `Telegram.WebApp.initDataUnsafe.user.id`
-          const userId = payload.new?.uid;  // adjust according to the shape of payload if necessary
   
+    const uidChannel = supabase
+      .channel('realtime:customer-by-uid')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'customer' },
+        (payload) => {
+          const userId = payload.new?.uid;
           if (userId) {
-            fetchDataByUserId(userId); // Re-fetch data on changes
+            fetchDataByUserId(userId);
           }
-        })
-        .subscribe();
+        }
+      )
+      .subscribe();
   
-      // Cleanup: Remove the Telegram script and unsubscribe from the Supabase realtime subscription
-      return () => {
-        document.body.removeChild(script);
-        supabase.removeChannel(subscription);
-      };
-    }, []); // Empty dependency array to run once when the component mounts
+    return () => {
+      document.body.removeChild(script);
+      supabase.removeChannel(uidChannel);
+    };
+  }, []);
   
   
 
