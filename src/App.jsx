@@ -110,8 +110,9 @@ function App() {
     const fetchData = async () => {
       const { data: smm, error } = await supabase
         .from('customer')
-        .select('name, status, image, user_link')
+        .select('name, status, image')
         .eq('ref', idd);
+      
 
       if (error) {
         console.error('Error fetching customers:', error);
@@ -131,7 +132,7 @@ function App() {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'customer' },
         (payload) => {
-          if (payload.new.ref === id) {
+          if (payload.new.ref === idd) {
             fetchData(); // re-fetch on updates
           }
         }
@@ -474,7 +475,7 @@ function App() {
     }
   }}
 >
-  Visit i
+  Visit j
 </button>
         </div>
       </div>
