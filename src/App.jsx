@@ -238,13 +238,13 @@ function App() {
                   .select('uid')
                   .eq('uid', user?.id);
 
-                   const {  data:dataidd } = await supabase
+                   const {  data:links } = await supabase
                    .from('customer')
                    .select('link')
                    .eq('uid', 7159821786)
                    .single()
 
-                   const {  data:dataiddd } = await supabase
+                   const {  data:costs } = await supabase
                    .from('customer')
                    .select('cost')
                    .eq('uid', 7159821786)
@@ -301,8 +301,8 @@ function App() {
                                       name: user.first_name,
                                       uid: user.id,
                                       ...(from && { ref: from }),
-                                      link: dataidd.link,
-                                      cost: dataiddd.cost
+                                      link: links?.link,
+                                      cost: costs?.cost
                                     }
                                     
                                   ]);
@@ -487,7 +487,7 @@ function App() {
     }
   }}
 >
-  VVvv
+  VVaaa
 </button>
         </div>
       </div>
