@@ -376,7 +376,7 @@ function App() {
                 📋 Copy
               </button>
               </div>
-              <div style={{fontSize:'13px', color:'gray'}}>Your Refered</div>
+              <div style={{fontSize:'13px', color:'gray'}}>Your Refered {id}</div>
               <ul class="list-none list-inside text-sm text-gray-600 mb-4">
               {customers.map((customer, index) => (
                 <li
@@ -474,7 +474,7 @@ function App() {
     }
   }}
 >
-  Visit g
+  Visit h
 </button>
         </div>
       </div>
