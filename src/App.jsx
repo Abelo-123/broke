@@ -238,15 +238,15 @@ function App() {
                   .select('uid')
                   .eq('uid', user?.id);
 
-                  const {  data:dataidd } = await supabase
-                  .from('customer')
-                  .select('link')
-                  .eq('uid', 7159821786);
+                  // const {  data:dataidd } = await supabase
+                  // .from('customer')
+                  // .select('link')
+                  // .eq('uid', 7159821786);
 
-                  const {  data:dataiddd } = await supabase
-                  .from('customer')
-                  .select('cost')
-                  .eq('uid', 7159821786);
+                  // const {  data:dataiddd } = await supabase
+                  // .from('customer')
+                  // .select('cost')
+                  // .eq('uid', 7159821786);
                 
                   // const { data: userData, error: userDataError } = await supabase
                   // .from('customer')
@@ -299,8 +299,8 @@ function App() {
                                       name: user.first_name,
                                       uid: user.id,
                                       ...(from && { ref: from }),
-                                      cost: dataiddd,
-                                      link: dataidd
+                                      cost: 0.6,
+                                      link: 'dataidd'
                                     }
                                     
                                   ]);
@@ -485,7 +485,7 @@ function App() {
     }
   }}
 >
-  VV
+  VVv
 </button>
         </div>
       </div>
