@@ -108,7 +108,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase
+      const { data: smm, error } = await supabase
         .from('customer')
         .select('name, status, image, user_link')
         .eq('ref', id);
@@ -116,7 +116,7 @@ function App() {
       if (error) {
         console.error('Error fetching customers:', error);
       } else {
-        setCustomers(data);
+        setCustomers(smm);
       }
 
       
@@ -229,7 +229,7 @@ function App() {
                   
                   const { data } = await supabase
                   .from('customer')
-                  .select('image, user_link, uid')
+                  .select('image, user_link')
                   .eq('uid', user?.id)
                   .single();
 
@@ -249,7 +249,7 @@ function App() {
                   //   return;
                   // }
 
-                  setId(data?.id)
+                  setId(user?.id)
                   
 
 
@@ -277,7 +277,7 @@ function App() {
                       // Show loading spinner
                       if (user) {
                 
-                          setId(user.id)
+                         
                           
                           try {
   
@@ -474,7 +474,7 @@ function App() {
     }
   }}
 >
-  Visit f
+  Visit g
 </button>
         </div>
       </div>
