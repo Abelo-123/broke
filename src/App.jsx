@@ -228,11 +228,11 @@ function App() {
                   //const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
                
                   
-                  // const { data } = await supabase
-                  // .from('customer')
-                  // .select('image, user_link')
-                  // .eq('uid', user.id)
-                  // .single();
+                   const { data } = await supabase
+                   .from('customer')
+                   .select('image, user_link')
+                   .eq('uid', user.id)
+                   .single();
 
                   const {  data:dataid } = await supabase
                   .from('customer')
@@ -250,13 +250,13 @@ function App() {
                   //   return;
                   // }
 
-                  // if(data?.user_link) {
-                  //   setLink(data.user_link)
-                  // }
+                   if(data?.user_link) {
+                     setLink(data.user_link)
+                   }
 
-                  // if (data?.image) {
-                  //   setImageUrl(data.image);
-                  // }
+                   if (data?.image) {
+                     setImageUrl(data.image);
+                   }
                  // const userCost = userData.cost;  // Extract the cost value from the fetched data
 
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
@@ -462,7 +462,7 @@ function App() {
     }
   }}
 >
-  Visithhh
+  a
 </button>
         </div>
       </div>
