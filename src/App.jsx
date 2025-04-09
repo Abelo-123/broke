@@ -227,44 +227,43 @@ function App() {
                   const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
                
                   
-                  // const { data } = await supabase
-                  // .from('customer')
-                  // .select('image, user_link')
-                  // .eq('uid', user.id)
-                  // .single();
+                  const { data } = await supabase
+                  .from('customer')
+                  .select('image, user_link')
+                  .eq('uid', user.id)
+                  .single();
 
-                  // const {  data:dataid } = await supabase
-                  // .from('customer')
-                  // .select('uid')
-                  // .eq('uid', user.id);
+                  const {  data:dataid } = await supabase
+                  .from('customer')
+                  .select('uid')
+                  .eq('uid', user.id);
                 
-                  // const { data: userData, error: userDataError } = await supabase
-                  // .from('customer')
-                  // .select('cost')
-                  // .eq('uid', user.id)  // Get the cost for the current user
-                  // .limit(1);  // Ensure we only fetch one row (since the user id is unique)
+                  const { data: userData, error: userDataError } = await supabase
+                  .from('customer')
+                  .select('cost')
+                  .eq('uid', user.id)  // Get the cost for the current user
+                  .limit(1);  // Ensure we only fetch one row (since the user id is unique)
 
-                  // if (userDataError) {
-                  //   console.error('Error fetching user data:', userDataError);
-                  //   return;
-                  // }
+                  if (userDataError) {
+                    console.error('Error fetching user data:', userDataError);
+                    return;
+                  }
 
-                  // if(data?.user_link) {
-                  //   setLink(data.user_link)
-                  // }
+                  if(data?.user_link) {
+                    setLink(data.user_link)
+                  }
 
-                  // if (data?.image) {
-                  //   setImageUrl(data.image);
-                  // }
-                 // const userCost = userData[0].cost;  // Extract the cost value from the fetched data
+                  if (data?.image) {
+                    setImageUrl(data.image);
+                  }
+                  const userCost = userData[0].cost;  // Extract the cost value from the fetched data
 
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
   
                   const userNameFromStorage = localStorage.getItem(storageKey);
   
                   setId(user.id)
-                  if (userNameFromStorage) {
-                  // if (userNameFromStorage || dataid.length == 1) {
+                  if (userNameFromStorage || dataid.length == 1) {
                       //setAuthMsg(`Uer ddata alredsady exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API idf the data is already set
@@ -282,8 +281,9 @@ function App() {
                                       name: user.first_name,
                                       uid: user.id,
                                       ...(from && { ref: from }),
-                                      cost: 0.5
-                                    }                                    
+                                      cost: userCost
+                                    }
+                                    
                                   ]);
   
                               if (error) {
