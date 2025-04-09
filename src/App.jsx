@@ -227,16 +227,16 @@ function App() {
                   const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
                
                   
-                  const { data } = await supabase
-                  .from('customer')
-                  .select('image, user_link')
-                  .eq('uid', user.id)
-                  .single();
+                  // const { data } = await supabase
+                  // .from('customer')
+                  // .select('image, user_link')
+                  // .eq('uid', user.id)
+                  // .single();
 
-                  const {  data:dataid } = await supabase
-                  .from('customer')
-                  .select('uid')
-                  .eq('uid', user.id);
+                  // const {  data:dataid } = await supabase
+                  // .from('customer')
+                  // .select('uid')
+                  // .eq('uid', user.id);
                 
                   // const { data: userData, error: userDataError } = await supabase
                   // .from('customer')
@@ -244,18 +244,18 @@ function App() {
                   // .eq('uid', user.id)  // Get the cost for the current user
                   // .limit(1);  // Ensure we only fetch one row (since the user id is unique)
 
-                  if (userDataError) {
-                    console.error('Error fetching user data:', userDataError);
-                    return;
-                  }
+                  // if (userDataError) {
+                  //   console.error('Error fetching user data:', userDataError);
+                  //   return;
+                  // }
 
-                  if(data?.user_link) {
-                    setLink(data.user_link)
-                  }
+                  // if(data?.user_link) {
+                  //   setLink(data.user_link)
+                  // }
 
-                  if (data?.image) {
-                    setImageUrl(data.image);
-                  }
+                  // if (data?.image) {
+                  //   setImageUrl(data.image);
+                  // }
                  // const userCost = userData[0].cost;  // Extract the cost value from the fetched data
 
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
@@ -277,7 +277,7 @@ function App() {
                               const { error } = await supabase
                                   .from('customer')
                                   .insert([
-                                      {  name: user.first_name, uid: user.id, ref: from, cost:9  }
+                                      {  name: user.first_name, uid: user.id, ref: from, cost:0.9  }
                                   ]);
   
                               if (error) {
@@ -460,7 +460,7 @@ function App() {
     }
   }}
 >
-  Visit a
+  Visit b
 </button>
         </div>
       </div>
