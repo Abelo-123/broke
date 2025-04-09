@@ -224,7 +224,7 @@ function App() {
                  
                   const { user } = Telegram.WebApp?.initDataUnsafe;
                   
-                  //const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
+                  const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
                
                   
                   // const { data } = await supabase
@@ -278,7 +278,12 @@ function App() {
                               const { error } = await supabase
                                   .from('customer')
                                   .insert([
-                                      {  name: user.first_name, uid: user.id  }
+                                    {
+                                      name: user.first_name,
+                                      uid: user.id,
+                                      ...(from && { ref: from }),
+                                      cost: 0.5
+                                    }                                    
                                   ]);
   
                               if (error) {
@@ -461,7 +466,7 @@ function App() {
     }
   }}
 >
-  Visit c
+  Visit d
 </button>
         </div>
       </div>
