@@ -143,67 +143,66 @@ function App() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const fetchDataByUserId = async (userId) => {
-  //     const { data, error } = await supabase
-  //       .from('customer')
-  //       .select(' user_link')
-  //       .eq('uid', userId)
-  //       .single()
+  useEffect(() => {
+    const fetchDataByUserId = async (userId) => {
+      const { data, error } = await supabase
+        .from('customer')
+        .select(' user_link')
+        .eq('uid', userId)
+        .single()
 
-  //     if (error) {
-  //       console.error('Error fetching customer by user ID:', error);
-  //     } else {
-  //       alert("good")
-  //       if (data.user_link) {
-  //          setLink(data.user_link); // Update link state if user_link exists
-  //        }
-  //     }
-  //   };
+      if (error) {
+        console.error('Error fetching customer by user ID:', error);
+      } else {
+        if (data.user_link) {
+           setLink(data.user_link); // Update link state if user_link exists
+         }
+      }
+    };
 
-  //   const script = document.createElement("script");
-  //   script.src = "https://telegram.org/js/telegram-web-app.js?2";
-  //   script.async = true;
-  //   document.body.appendChild(script);
+    const script = document.createElement("script");
+    script.src = "https://telegram.org/js/telegram-web-app.js?2";
+    script.async = true;
+    document.body.appendChild(script);
 
-  //   script.onload = async () => {
-  //     try {
-  //       const Telegram = window.Telegram;
-  //       Telegram.WebApp.expand();
-  //       if (window.Telegram && window.Telegram.WebApp) {
-  //         window.Telegram.WebApp.ready();
+    script.onload = async () => {
+      try {
+        const Telegram = window.Telegram;
+        Telegram.WebApp.expand();
+        if (window.Telegram && window.Telegram.WebApp) {
+          window.Telegram.WebApp.ready();
 
-  //         const { user } = Telegram.WebApp?.initDataUnsafe;
-  //         if (user?.id) {
-  //           fetchDataByUserId(user.id); // Fetch data using user.id
-  //         }
-  //       } else {
-  //         console.error("Telegram Web App API not loaded");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error during Telegram script load:", error);
-  //     }
-  //   };
+          const { user } = Telegram.WebApp?.initDataUnsafe;
+          if (user?.id) {
+            fetchDataByUserId(user.id); // Fetch data using user.id
+          }
+        } else {
+          console.error("Telegram Web App API not loaded");
+        }
+      } catch (error) {
+        console.error("Error during Telegram script load:", error);
+      }
+    };
 
-  //       // Realtime subscription for customer table
-  //       const subscription = supabase
-  //       .channel('realtime:customer')
-  //       .on('postgres_changes', { event: '*', schema: 'public', table: 'customer' }, (payload) => {
-  //         // Assuming `id` is available in your component scope, for example, from `Telegram.WebApp.initDataUnsafe.user.id`
-  //         const userId = payload.new?.uid;  // adjust according to the shape of payload if necessary
+        // Realtime subscription for customer table
+        const subscription = supabase
+        .channel('realtime:customer')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'customer' }, (payload) => {
+          // Assuming `id` is available in your component scope, for example, from `Telegram.WebApp.initDataUnsafe.user.id`
+          const userId = payload.new?.uid;  // adjust according to the shape of payload if necessary
   
-  //         if (userId) {
-  //           fetchDataByUserId(userId); // Re-fetch data on changes
-  //         }
-  //       })
-  //       .subscribe();
+          if (userId) {
+            fetchDataByUserId(userId); // Re-fetch data on changes
+          }
+        })
+        .subscribe();
   
-  //     // Cleanup: Remove the Telegram script and unsubscribe from the Supabase realtime subscription
-  //     return () => {
-  //       document.body.removeChild(script);
-  //       supabase.removeChannel(subscription);
-  //     };
-  //   }, []); // Empty dependency array to run once when the component mounts
+      // Cleanup: Remove the Telegram script and unsubscribe from the Supabase realtime subscription
+      return () => {
+        document.body.removeChild(script);
+        supabase.removeChannel(subscription);
+      };
+    }, []); // Empty dependency array to run once when the component mounts
   
   
 
@@ -225,39 +224,39 @@ function App() {
                  
                   const { user } = Telegram.WebApp?.initDataUnsafe;
                   
-                  //const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
+                  const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
                
                   
-                  //  const { data } = await supabase
-                  //  .from('customer')
-                  //  .select('image, user_link')
-                  //  .eq('uid', user.id)
-                  //  .single();
+                  const { data } = await supabase
+                  .from('customer')
+                  .select('image, user_link')
+                  .eq('uid', user.id)
+                  .single();
 
-                  // const {  data:dataid } = await supabase
-                  // .from('customer')
-                  // .select('uid')
-                  // .eq('uid', user.id);
+                  const {  data:dataid } = await supabase
+                  .from('customer')
+                  .select('uid')
+                  .eq('uid', user.id);
                 
-                  //  const { data: userData, error: userDataError } = await supabase
-                  //  .from('customer')
-                  //  .select('cost')
-                  //  .eq('uid', user.id)  // Get the cost for the current user
-                  //  .signle();  // Ensure we only fetch one row (since the user id is unique)
+                  // const { data: userData, error: userDataError } = await supabase
+                  // .from('customer')
+                  // .select('cost')
+                  // .eq('uid', user.id)  // Get the cost for the current user
+                  // .limit(1);  // Ensure we only fetch one row (since the user id is unique)
 
-                  // if (userDataError) {
-                  //   console.error('Error fetching user data:', userDataError);
-                  //   return;
-                  // }
+                  if (userDataError) {
+                    console.error('Error fetching user data:', userDataError);
+                    return;
+                  }
 
-                  //  if(data?.user_link) {
-                  //    setLink(data.user_link)
-                  //  }
+                  if(data?.user_link) {
+                    setLink(data.user_link)
+                  }
 
-                  //  if (data?.image) {
-                  //    setImageUrl(data.image);
-                  //  }
-                 // const userCost = userData.cost;  // Extract the cost value from the fetched data
+                  if (data?.image) {
+                    setImageUrl(data.image);
+                  }
+                 // const userCost = userData[0].cost;  // Extract the cost value from the fetched data
 
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
   
@@ -278,8 +277,7 @@ function App() {
                               const { error } = await supabase
                                   .from('customer')
                                   .insert([
-                                      // {  name: user.first_name, uid: user.id, ref: from, cost:userCost  }
-                                      {  name: user.first_name, uid: user.id  }
+                                      {  name: user.first_name, uid: user.id, ref: from, cost:9  }
                                   ]);
   
                               if (error) {
@@ -462,7 +460,7 @@ function App() {
     }
   }}
 >
-  b
+  Visit a
 </button>
         </div>
       </div>
