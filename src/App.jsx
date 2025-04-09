@@ -27,7 +27,6 @@ function App() {
   };
 
   const sendWithdrawl = async () => {
-    
     const script = document.createElement('script');
     script.src = 'https://telegram.org/js/telegram-web-app.js?2';
     script.async = true;
@@ -42,42 +41,47 @@ function App() {
           Telegram.WebApp.ready();
           const { user } = Telegram.WebApp?.initDataUnsafe;
   
-    try {
-      const { error } = await supabase
-        .from('customer-withdrawl')
-        .insert([
-          {
-            uid: user?.id,
-            name: user?.first_name,
-            amount: amountWithdrawl,
-            status: "pending",
-          },
-        ]);
+          try {
+            const { data, error } = await supabase
+              .from('customer-withdrawl')
+              .insert([
+                {
+                  uid: user?.id,
+                  name: user?.first_name,
+                  amount: amountWithdrawl,
+                  status: "pending",
+                },
+              ])
+              .select(); // Use .select() to return the inserted data
   
-      if (error) {
-        throw error;
+            if (error) {
+              throw error;
+            }
+  
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: "Withdrawal request submitted successfully.",
+            });
+  
+            // Add the new withdrawal to the customers state
+            setCustomers((prevCustomers) => [...prevCustomers, ...data]);
+  
+            setShowModalb(false);
+          } catch (error) {
+            console.error("Error inserting withdrawal:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Failed to submit withdrawal request. Please try again.",
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error during Telegram script load:', error);
       }
-  
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: "Withdrawal request submitted successfully.",
-      });
-      setShowModalb(false)
-    } catch (error) {
-      console.error("Error inserting withdrawal:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Failed to submit withdrawal request. Please try again.",
-      });
-    }
-  }
-}catch (error) {
-  console.error('Error during Telegram script load:', error);
-}
-  }
-};
+    };
+  };
 
   const copyToClipboard = () => {
     const input = document.getElementById("yourInputId"); // Replace with your actual input's ID
@@ -295,7 +299,22 @@ function App() {
     };
   }, [id]);
   
+  useEffect(() => {
+    const fetchWithdrawals = async () => {
+      const { data: withdrawalData, error } = await supabase
+        .from('customer-withdrawl')
+        .select('*')
+        .eq('uid', 5928771903);
   
+      if (error) {
+        console.error('Error fetching withdrawal data:', error);
+      } else {
+        setCustomers(withdrawalData);
+      }
+    };
+  
+    fetchWithdrawals();
+  }, [id]);
 
     useEffect(() => {
       setLoading(true); 
@@ -527,6 +546,28 @@ function App() {
               </div>
               <div style={{fontSize:'13px', color:'gray'}}>Your Refered {id}</div>
               
+              <table class="min-w-full table-auto bg-white border border-gray-300 rounded-lg shadow-md">
+          <thead>
+            <tr class="bg-gray-200 text-gray-800">
+              <th class="px-4 py-2 border-b">#</th>
+              <th class="px-4 py-2 border-b">uid</th>
+              <th class="px-4 py-2 border-b">name</th>
+              <th class="px-4 py-2 border-b">amount</th>
+              <th class="px-4 py-2 border-b">status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {customers.map((data, index) => (
+              <tr key={index} class="bg-gray-50">
+                <td class="px-4 py-2 border-b text-center">{index + 1}</td>
+                <td class="px-4 py-2 border-b">{data.uid}</td>
+                <td class="px-4 py-2 border-b">{data.name}</td>
+                <td class="px-4 py-2 border-b">{data.amount}</td>
+                <td class="px-4 py-2 border-b">{data.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
             </div>
           </div>
@@ -607,7 +648,7 @@ p
     }
   }}
 >
-  VVfff
+  VVggg
 </button>
         </div>
       </div>
