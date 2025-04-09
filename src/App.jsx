@@ -279,7 +279,7 @@ function App() {
                                   .from('customer')
                                   .insert([
                                       // {  name: user.first_name, uid: user.id, ref: from, cost:userCost  }
-                                      {  name: 'user.first_name', uid: 45454  }
+                                      {  name: user.first_name, uid: user.id  }
                                   ]);
   
                               if (error) {
@@ -462,7 +462,7 @@ function App() {
     }
   }}
 >
-  Visitggg
+  Visithhh
 </button>
         </div>
       </div>
