@@ -108,40 +108,21 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!id) return; // Ensure id is available before making the query
       const { data: smmss, error } = await supabase
         .from('customer')
         .select('name, status, image')
-        .eq('ref', 5928771903);
+        .eq('ref', id); // Use id here
 
       if (error) {
         console.error('Error fetching customers:', error);
       } else {
         setCustomers(smmss);
       }
-
-      
     };
 
     fetchData();
-
-    // // Optional: subscribe to real-time changes
-    // const subscription = supabase
-    //   .channel('realtime:customer')
-    //   .on(
-    //     'postgres_changes',
-    //     { event: '*', schema: 'public', table: 'customer' },
-    //     (payload) => {
-    //       if (payload.new.ref === id) {
-    //         fetchData(); // re-fetch on updates
-    //       }
-    //     }
-    //   )
-    //   .subscribe();
-
-    // return () => {
-    //   supabase.removeChannel(subscription);
-    // };
-  }, []);
+  }, [id]); // Add id as a dependency
 
   useEffect(() => {
     const fetchDataByUserId = async (userId) => {
@@ -474,7 +455,7 @@ function App() {
     }
   }}
 >
-  Visit
+  V
 </button>
         </div>
       </div>
