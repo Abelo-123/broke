@@ -9,7 +9,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [loadingb, setLoadingB] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [id, setId] = useState(null);
+  const [idd, setIdd] = useState(null);
   const [link, setLink] = useState(null)
   const [customers, setCustomers] = useState([]);
 
@@ -111,7 +111,7 @@ function App() {
       const { data: smm, error } = await supabase
         .from('customer')
         .select('name, status, image, user_link')
-        .eq('ref', id);
+        .eq('ref', idd);
 
       if (error) {
         console.error('Error fetching customers:', error);
@@ -249,7 +249,7 @@ function App() {
                   //   return;
                   // }
 
-                  setId(user?.id)
+                  setIdd(user?.id)
                   
 
 
@@ -474,7 +474,7 @@ function App() {
     }
   }}
 >
-  Visit h
+  Visit i
 </button>
         </div>
       </div>
