@@ -244,10 +244,10 @@ function App() {
                   // .eq('uid', user.id)  // Get the cost for the current user
                   // .limit(1);  // Ensure we only fetch one row (since the user id is unique)
 
-                  if (userDataError) {
-                    console.error('Error fetching user data:', userDataError);
-                    return;
-                  }
+                  // if (userDataError) {
+                  //   console.error('Error fetching user data:', userDataError);
+                  //   return;
+                  // }
 
                   if(data?.user_link) {
                     setLink(data.user_link)
@@ -466,7 +466,7 @@ function App() {
     }
   }}
 >
-  Visit f
+  Visit g
 </button>
         </div>
       </div>
