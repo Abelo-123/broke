@@ -111,7 +111,7 @@ function App() {
       const { data: smmss, error } = await supabase
         .from('customer')
         .select('name, status, image')
-        .eq('ref', Number(id));
+        .eq('ref', id);
 
       if (error) {
         console.error('Error fetching customers:', error);
@@ -124,23 +124,23 @@ function App() {
 
     fetchData();
 
-    // Optional: subscribe to real-time changes
-    const subscription = supabase
-      .channel('realtime:customer')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'customer' },
-        (payload) => {
-          if (payload.new.ref === id) {
-            fetchData(); // re-fetch on updates
-          }
-        }
-      )
-      .subscribe();
+    // // Optional: subscribe to real-time changes
+    // const subscription = supabase
+    //   .channel('realtime:customer')
+    //   .on(
+    //     'postgres_changes',
+    //     { event: '*', schema: 'public', table: 'customer' },
+    //     (payload) => {
+    //       if (payload.new.ref === id) {
+    //         fetchData(); // re-fetch on updates
+    //       }
+    //     }
+    //   )
+    //   .subscribe();
 
-    return () => {
-      supabase.removeChannel(subscription);
-    };
+    // return () => {
+    //   supabase.removeChannel(subscription);
+    // };
   }, []);
 
   useEffect(() => {
@@ -474,7 +474,7 @@ function App() {
     }
   }}
 >
-  Visit b
+  Visit a {id}
 </button>
         </div>
       </div>
