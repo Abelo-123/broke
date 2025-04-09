@@ -111,7 +111,7 @@ function App() {
       const { data: smmss, error } = await supabase
         .from('customer')
         .select('name, status, image')
-        .eq('ref', id);
+        .eq('ref', 5928771903);
 
       if (error) {
         console.error('Error fetching customers:', error);
@@ -474,7 +474,7 @@ function App() {
     }
   }}
 >
-  Visit a {id}
+  Visit
 </button>
         </div>
       </div>
