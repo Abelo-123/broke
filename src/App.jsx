@@ -9,7 +9,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [loadingb, setLoadingB] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [idd, setIdd] = useState(null);
+  const [id, setId] = useState(null);
   const [link, setLink] = useState(null)
   const [customers, setCustomers] = useState([]);
 
@@ -111,8 +111,7 @@ function App() {
       const { data: smm, error } = await supabase
         .from('customer')
         .select('name, status, image')
-        .eq('ref', 5928771903);
-      
+        .eq('ref', id);
 
       if (error) {
         console.error('Error fetching customers:', error);
@@ -132,7 +131,7 @@ function App() {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'customer' },
         (payload) => {
-          if (payload.new.ref === idd) {
+          if (payload.new.ref === id) {
             fetchData(); // re-fetch on updates
           }
         }
@@ -250,7 +249,7 @@ function App() {
                   //   return;
                   // }
 
-                  setIdd(user?.id)
+                  setId(user?.id)
                   
 
 
@@ -377,7 +376,7 @@ function App() {
                 📋 Copy
               </button>
               </div>
-              <div style={{fontSize:'13px', color:'gray'}}>Your Refered {id}</div>
+              <div style={{fontSize:'13px', color:'gray'}}>Your Refered</div>
               <ul class="list-none list-inside text-sm text-gray-600 mb-4">
               {customers.map((customer, index) => (
                 <li
@@ -475,7 +474,7 @@ function App() {
     }
   }}
 >
-  Visit k
+  Visit 
 </button>
         </div>
       </div>
