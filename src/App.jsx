@@ -111,14 +111,13 @@ function App() {
 
        const { data: costData, error } = await supabase
          .from('customer')
-         .select('amount')
-         .eq('uid', 5928771903)
-         .signle();
+         .select('*')
+         .eq('uid', id)
 
        if (error) {
          console.error('Error fetching customer cost:', error);
        } else {
-         setCost(costData.amount);
+         setCost(costData[0]?.cost);
        }
      };
 
@@ -130,7 +129,7 @@ function App() {
          'postgres_changes',
          { event: '*', schema: 'public', table: 'customer' },
          (payload) => {
-           if (payload.new?.uid === 5928771903) {
+           if (payload.new?.uid == id) {
              fetchCostData();
            }
          }
@@ -140,7 +139,7 @@ function App() {
      return () => {
        supabase.removeChannel(costChannel);
      };
-   }, []);
+   }, [id]);
 
 
   useEffect(() => {
@@ -510,7 +509,7 @@ function App() {
     }
   }}
 >
-  VVdd
+  VVee
 </button>
         </div>
       </div>
