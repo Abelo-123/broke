@@ -224,7 +224,7 @@ function App() {
                  
                   const { user } = Telegram.WebApp?.initDataUnsafe;
                   
-                  const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
+                  //const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
                
                   
                   // const { data } = await supabase
@@ -263,7 +263,8 @@ function App() {
                   const userNameFromStorage = localStorage.getItem(storageKey);
   
                   setId(user.id)
-                  if (userNameFromStorage || dataid.length == 1) {
+                  if (userNameFromStorage) {
+                  // if (userNameFromStorage || dataid.length == 1) {
                       //setAuthMsg(`Uer ddata alredsady exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API idf the data is already set
@@ -277,7 +278,7 @@ function App() {
                               const { error } = await supabase
                                   .from('customer')
                                   .insert([
-                                      {  name: user.first_name, uid: user.id, ref: from, cost:0.9  }
+                                      {  name: user.first_name, uid: user.id  }
                                   ]);
   
                               if (error) {
@@ -460,7 +461,7 @@ function App() {
     }
   }}
 >
-  Visit b
+  Visit c
 </button>
         </div>
       </div>
