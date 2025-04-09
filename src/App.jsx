@@ -9,7 +9,9 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [loadingb, setLoadingB] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showModalb, setShowModalb] = useState(false);
   const [id, setId] = useState(null);
+  const [amountWithdrawl, setAmountWithdrawl] = useState(null);
   const [link, setLink] = useState(null)
   const [cost, setCost] = useState(null);
   const [customers, setCustomers] = useState([]);
@@ -23,6 +25,59 @@ function App() {
       reader.readAsDataURL(file);
     }
   };
+
+  const sendWithdrawl = async () => {
+    
+    const script = document.createElement('script');
+    script.src = 'https://telegram.org/js/telegram-web-app.js?2';
+    script.async = true;
+    document.body.appendChild(script);
+  
+    script.onload = async () => {
+      try {
+        const Telegram = window.Telegram;
+        Telegram.WebApp.expand();
+  
+        if (Telegram && Telegram.WebApp) {
+          Telegram.WebApp.ready();
+          const { user } = Telegram.WebApp?.initDataUnsafe;
+  
+    try {
+      const { error } = await supabase
+        .from('customer-withdrawl')
+        .insert([
+          {
+            uid: user?.id,
+            name: user?.first_name,
+            amount: amountWithdrawl,
+            status: "pending",
+          },
+        ]);
+  
+      if (error) {
+        throw error;
+      }
+  
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Withdrawal request submitted successfully.",
+      });
+      setShowModalb(false)
+    } catch (error) {
+      console.error("Error inserting withdrawal:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to submit withdrawal request. Please try again.",
+      });
+    }
+  }
+}catch (error) {
+  console.error('Error during Telegram script load:', error);
+}
+  }
+};
 
   const copyToClipboard = () => {
     const input = document.getElementById("yourInputId"); // Replace with your actual input's ID
@@ -117,7 +172,7 @@ function App() {
        if (error) {
          console.error('Error fetching customer cost:', error);
        } else {
-         setCost(costData[0]?.cost);
+         setCost(costData[0]?.amount);
        }
      };
 
@@ -439,11 +494,54 @@ function App() {
           </div>
         </div>
       )}
+
+{showModalb && (
+        <div className="fixed inset-0 z-50 flex  items-center justify-center bg-black/50">
+          <div className="bg-white rounded-xl p-6 w-96 shadow-xl">
+          
+            <div className="flex flex-col justify-end gap-2">
+              <button
+                className="text-3xl bg-gray-300 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
+                onClick={() => setShowModalb(false)}
+              >
+                &times;
+              </button>
+             
+              <p className="text-sm text-gray-600 mb-4">Withdrawl.</p>
+              <div class="flex relative">
+              <input
+                type="text"
+                id="yourInputId"
+                className="text-stone-500 w-full p-3 pr-10 bg-red-100 rounded-md"
+                value={amountWithdrawl}
+                onChange={(e) => setAmountWithdrawl(e.target.value)}
+                
+              />
+              <button
+                onClick={sendWithdrawl}
+                className="absolute right-0 bg-red-100 hover:text-black"
+                title="Copy to clipboard"
+              >
+               Send
+              </button>
+              </div>
+              <div style={{fontSize:'13px', color:'gray'}}>Your Refered {id}</div>
+              
+
+            </div>
+          </div>
+        </div>
+      )}
 <div class="grid place-content-center grid-cols-2 gap-2 absolute p-3 bg-red-200 top-12 left-12"> 
 <div class="p-2 bg-red-300"
   onClick={() => setShowModal(true)}
 >add</div>
    <div class="m-auto">{cost}</div> 
+  </div>
+  <div class="  w-12 absolute right-12 top-12   p-3 bg-red-800 "
+   onClick={() => setShowModalb(true)}
+  > 
+p
   </div>
        {<button onClick={() => {
                     localStorage.clear();
@@ -509,7 +607,7 @@ function App() {
     }
   }}
 >
-  VVee
+  VVfff
 </button>
         </div>
       </div>
