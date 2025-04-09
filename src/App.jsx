@@ -11,7 +11,6 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [id, setId] = useState(null);
   const [link, setLink] = useState(null)
-  const [cost, setCost] = useState(null);
   const [customers, setCustomers] = useState([]);
 
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
@@ -191,8 +190,7 @@ function App() {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'customer' },
         (payload) => {
-          const userId = payload.new?.uid;
-          if (userId === id) {
+          if ( payload.new?.uid === id) {
             fetchDataByUserId(userId);
           }
         }
@@ -203,7 +201,7 @@ function App() {
       document.body.removeChild(script);
       supabase.removeChannel(uidChannel);
     };
-  }, []);
+  }, [id]);
   
   
 
@@ -332,41 +330,6 @@ function App() {
           };
       }, []);
 
-  useEffect(() => {
-    const fetchCostData = async () => {
-      
-
-      const { data: costData, error } = await supabase
-        .from('customer')
-        .select('cost')
-        .eq('uid', 5928771903);
-
-      if (error) {
-        console.error('Error fetching customer cost:', error);
-      } else {
-        setCost( costData);
-      }
-    };
-
-    fetchCostData();
-
-    const costChannel = supabase
-      .channel('realtime:customer-cost-by-uid')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'customer' },
-        (payload) => {
-          if (payload.new?.uid === 5928771903) {
-            fetchCostData();
-          }
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(costChannel);
-    };
-  }, []);
 
   return (
     
@@ -443,8 +406,8 @@ function App() {
 <div class="p-2 bg-red-300"
   onClick={() => setShowModal(true)}
 >add</div>
-  <div class="m-auto">{cost}</div>
-</div>
+   <div class="m-auto">0.00</div> 
+  </div>
        {<button onClick={() => {
                     localStorage.clear();
 
@@ -509,7 +472,7 @@ function App() {
     }
   }}
 >
-  VVccdd
+  VVbbb
 </button>
         </div>
       </div>
