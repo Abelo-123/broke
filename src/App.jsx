@@ -237,16 +237,16 @@ function App() {
                   .select('uid')
                   .eq('uid', user?.id);
                 
-                   const { data: userData, error: userDataError } = await supabase
-                   .from('customer')
-                   .select('cost')
-                   .eq('uid', 5928771903)  // Get the cost for the current user
-                   .signle()  // Ensure we only fetch one row (since the user id is unique)
+                  // const { data: userData, error: userDataError } = await supabase
+                  // .from('customer')
+                  // .select('cost')
+                  // .eq('uid', user.id)  // Get the cost for the current user
+                  // .limit(1);  // Ensure we only fetch one row (since the user id is unique)
 
-                   if (userDataError) {
-                     console.error('Error fetching user data:', userDataError);
-                     return;
-                   }
+                  // if (userDataError) {
+                  //   console.error('Error fetching user data:', userDataError);
+                  //   return;
+                  // }
 
                   setId(user?.id)
                   
@@ -259,7 +259,7 @@ function App() {
                   if (data?.image) {
                     setImageUrl(data.image);
                   }
-                  const userCost = userData.cost;  // Extract the cost value from the fetched data
+                  //const userCost = userData[0].cost;  // Extract the cost value from the fetched data
 
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
   
@@ -288,7 +288,7 @@ function App() {
                                       name: user.first_name,
                                       uid: user.id,
                                       ...(from && { ref: from }),
-                                      cost: userCost
+                                      cost: 0.6
                                     }
                                     
                                   ]);
@@ -473,7 +473,7 @@ function App() {
     }
   }}
 >
-  VV
+  V
 </button>
         </div>
       </div>
