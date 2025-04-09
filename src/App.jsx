@@ -126,7 +126,7 @@ function App() {
 
     // Optional: subscribe to real-time changes
     const subscription = supabase
-      .channel('realtime:customer')
+      .channel('realtimea:customer')
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'customer' },
@@ -229,7 +229,7 @@ function App() {
                   
                   const { data } = await supabase
                   .from('customer')
-                  .select('image, user_link')
+                  .select('image, user_link, uid')
                   .eq('uid', user?.id)
                   .single();
 
@@ -249,6 +249,11 @@ function App() {
                   //   return;
                   // }
 
+                  if(data?.uid) {
+                  setId(data.uid)
+                  }
+
+
                   if(data?.user_link) {
                     setLink(data.user_link)
                   }
@@ -262,15 +267,21 @@ function App() {
   
                   const userNameFromStorage = localStorage.getItem(storageKey);
   
-                  setId(user.id)
+                  
                   if (userNameFromStorage || dataid.length >= 1) {
-                      //setAuthMsg(`Uer ddata alredsady exists in localStorage: ${userNameFromStorage}`);
+                    
+                   if(data?.uid) {
+                    setId(data.uid)
+                    } 
+                    //setAuthMsg(`Uer ddata alredsady exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API idf the data is already set
                   } else {
                       // Show loading spinner
                       if (user) {
                 
+                          setId(user.id)
+                          
                           try {
   
   
@@ -466,7 +477,7 @@ function App() {
     }
   }}
 >
-  Visit d
+  Visit b
 </button>
         </div>
       </div>
