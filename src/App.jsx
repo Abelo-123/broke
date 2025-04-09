@@ -12,6 +12,7 @@ function App() {
   const [id, setId] = useState(1234);
   const [link, setLink] = useState(null)
   const [customers, setCustomers] = useState([]);
+  const [ydata, setYydata] = useState([])
 
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
   const handleImageChange = (event) => {
@@ -103,6 +104,9 @@ function App() {
     }
     return new Blob([new Uint8Array(array)], { type: mime });
   };
+
+ 
+
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase
@@ -116,7 +120,7 @@ function App() {
         setCustomers(data);
       }
 
-     
+      
     };
 
     fetchData();
@@ -137,6 +141,53 @@ function App() {
 
     return () => {
       supabase.removeChannel(subscription);
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchDataByUserId = async (userId) => {
+      const { data, error } = await supabase
+        .from('customer')
+        .select('name, user_link')
+        .eq('uid', userId)
+        .single()
+
+      if (error) {
+        console.error('Error fetching customer by user ID:', error);
+      } else {
+        setYydata(data);
+        // if (data.length > 0 && data[0].user_link) {
+        //   setLink(data.user_link); // Update link state if user_link exists
+        // }
+      }
+    };
+
+    const script = document.createElement("script");
+    script.src = "https://telegram.org/js/telegram-web-app.js?2";
+    script.async = true;
+    document.body.appendChild(script);
+
+    script.onload = async () => {
+      try {
+        const Telegram = window.Telegram;
+        Telegram.WebApp.expand();
+        if (window.Telegram && window.Telegram.WebApp) {
+          window.Telegram.WebApp.ready();
+
+          const { user } = Telegram.WebApp?.initDataUnsafe;
+          if (user?.id) {
+            fetchDataByUserId(user.id); // Fetch data using user.id
+          }
+        } else {
+          console.error("Telegram Web App API not loaded");
+        }
+      } catch (error) {
+        console.error("Error during Telegram script load:", error);
+      }
+    };
+
+    return () => {
+      document.body.removeChild(script);
     };
   }, []);
 
@@ -175,7 +226,7 @@ function App() {
                   const { data: userData, error: userDataError } = await supabase
                   .from('customer')
                   .select('cost')
-                  .eq('uid', 6521111774)  // Get the cost for the current user
+                  .eq('uid', user.id)  // Get the cost for the current user
                   .limit(1);  // Ensure we only fetch one row (since the user id is unique)
 
                   if (userDataError) {
@@ -394,7 +445,7 @@ function App() {
     }
   }}
 >
-  VisitC
+  Visit {ydata.name}
 </button>
         </div>
       </div>
