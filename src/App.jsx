@@ -11,6 +11,7 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [id, setId] = useState(null);
   const [link, setLink] = useState(null)
+  const [cost, setCost] = useState(null);
   const [customers, setCustomers] = useState([]);
 
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
@@ -104,7 +105,43 @@ function App() {
     return new Blob([new Uint8Array(array)], { type: mime });
   };
 
- 
+   useEffect(() => {
+     const fetchCostData = async () => {
+      
+
+       const { data: costData, error } = await supabase
+         .from('customer')
+         .select('cost')
+         .eq('uid', id)
+         .signle();
+
+       if (error) {
+         console.error('Error fetching customer cost:', error);
+       } else {
+         setCost(costData.cost);
+       }
+     };
+
+     fetchCostData();
+
+     const costChannel = supabase
+       .channel('realtime:customer-cost-by-uid')
+       .on(
+         'postgres_changes',
+         { event: '*', schema: 'public', table: 'customer' },
+         (payload) => {
+           if (payload.new?.uid === id) {
+             fetchCostData();
+           }
+         }
+       )
+       .subscribe();
+
+     return () => {
+       supabase.removeChannel(costChannel);
+     };
+   }, [id]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -190,7 +227,8 @@ function App() {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'customer' },
         (payload) => {
-          if ( payload.new?.uid === id) {
+          const userId = payload.new?.uid;
+          if (userId === id) { // Ensure the uid matches the id
             fetchDataByUserId(userId);
           }
         }
@@ -406,7 +444,7 @@ function App() {
 <div class="p-2 bg-red-300"
   onClick={() => setShowModal(true)}
 >add</div>
-   <div class="m-auto">0.00</div> 
+   <div class="m-auto">{cost}</div> 
   </div>
        {<button onClick={() => {
                     localStorage.clear();
@@ -472,7 +510,7 @@ function App() {
     }
   }}
 >
-  VVbbb
+  VVccc
 </button>
         </div>
       </div>
