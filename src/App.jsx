@@ -10,6 +10,7 @@ function App() {
   const [loadingb, setLoadingB] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [id, setId] = useState(1234);
+  const [link, setLink] = useState(null)
   const [customers, setCustomers] = useState([]);
 
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
@@ -183,7 +184,7 @@ function App() {
                   }
 
                   if(data?.user_link) {
-                    alert("new link")
+                    setLink(data.user_link)
                   }
 
                   if (data?.image) {
@@ -370,7 +371,7 @@ function App() {
         <div class="flex gap-3">
           <input
             type="text"
-            value="Link waiting..."
+            value={link && "Waiting Link..." || link}
             id="copyInput"
             disabled
             class="w-10/12 bg-red-300 rounded-lg p-4 py-3"
@@ -393,7 +394,7 @@ function App() {
     }
   }}
 >
-  VisitA
+  VisitB
 </button>
         </div>
       </div>
