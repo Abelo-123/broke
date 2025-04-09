@@ -228,35 +228,35 @@ function App() {
                   //const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
                
                   
-                  // const { data } = await supabase
-                  // .from('customer')
-                  // .select('image, user_link')
-                  // .eq('uid', user.id)
-                  // .single();
+                  const { data } = await supabase
+                  .from('customer')
+                  .select('image, user_link')
+                  .eq('uid', user.id)
+                  .single();
 
                   const {  data:dataid } = await supabase
                   .from('customer')
                   .select('uid')
                   .eq('uid', user.id);
                 
-                  // const { data: userData, error: userDataError } = await supabase
-                  // .from('customer')
-                  // .select('cost')
-                  // .eq('uid', user.id)  // Get the cost for the current user
-                  // .signle();  // Ensure we only fetch one row (since the user id is unique)
+                  //  const { data: userData, error: userDataError } = await supabase
+                  //  .from('customer')
+                  //  .select('cost')
+                  //  .eq('uid', user.id)  // Get the cost for the current user
+                  //  .signle();  // Ensure we only fetch one row (since the user id is unique)
 
-                  // if (userDataError) {
-                  //   console.error('Error fetching user data:', userDataError);
-                  //   return;
-                  // }
+                  if (userDataError) {
+                    console.error('Error fetching user data:', userDataError);
+                    return;
+                  }
 
-                  // if(data?.user_link) {
-                  //   setLink(data.user_link)
-                  // }
+                  if(data?.user_link) {
+                    setLink(data.user_link)
+                  }
 
-                  // if (data?.image) {
-                  //   setImageUrl(data.image);
-                  // }
+                  if (data?.image) {
+                    setImageUrl(data.image);
+                  }
                  // const userCost = userData.cost;  // Extract the cost value from the fetched data
 
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
@@ -462,7 +462,7 @@ function App() {
     }
   }}
 >
-  Visitiii
+  Visitjjj
 </button>
         </div>
       </div>
