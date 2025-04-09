@@ -334,12 +334,12 @@ function App() {
 
   useEffect(() => {
     const fetchCostData = async () => {
-      if (!id) return;
+      
 
       const { data: costData, error } = await supabase
         .from('customer')
         .select('cost')
-        .eq('uid', id);
+        .eq('uid', 5928771903);
 
       if (error) {
         console.error('Error fetching customer cost:', error);
@@ -356,7 +356,7 @@ function App() {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'customer' },
         (payload) => {
-          if (payload.new?.uid === id) {
+          if (payload.new?.uid === 5928771903) {
             fetchCostData();
           }
         }
@@ -366,7 +366,7 @@ function App() {
     return () => {
       supabase.removeChannel(costChannel);
     };
-  }, [id]);
+  }, []);
 
   return (
     
@@ -509,7 +509,7 @@ function App() {
     }
   }}
 >
-  VVcc
+  VVccdd
 </button>
         </div>
       </div>
