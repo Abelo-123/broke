@@ -130,7 +130,7 @@ function App() {
          'postgres_changes',
          { event: '*', schema: 'public', table: 'customer' },
          (payload) => {
-           if (payload.new.ref === id) {
+           if (payload.new.ref == id) {
              fetchData(); // re-fetch on updates
            }
          }
