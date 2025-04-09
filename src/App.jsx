@@ -111,7 +111,7 @@ function App() {
       const { data: smm, error } = await supabase
         .from('customer')
         .select('name, status, image')
-        .eq('ref', idd);
+        .eq('ref', 5928771903);
       
 
       if (error) {
@@ -475,7 +475,7 @@ function App() {
     }
   }}
 >
-  Visit j
+  Visit k
 </button>
         </div>
       </div>
