@@ -115,9 +115,7 @@ function App() {
         setCustomers(data);
       }
 
-      if(data.user_link) {
-        alert("new link")
-      }
+     
     };
 
     fetchData();
@@ -164,7 +162,7 @@ function App() {
                   
                   const { data } = await supabase
                   .from('customer')
-                  .select('image')
+                  .select('image, user_link')
                   .eq('uid', user.id)
                   .single();
 
@@ -182,6 +180,10 @@ function App() {
                   if (userDataError) {
                     console.error('Error fetching user data:', userDataError);
                     return;
+                  }
+
+                  if(data?.user_link) {
+                    alert("new link")
                   }
 
                   if (data?.image) {
@@ -391,7 +393,7 @@ function App() {
     }
   }}
 >
-  Visit
+  VisitA
 </button>
         </div>
       </div>
