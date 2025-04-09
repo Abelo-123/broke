@@ -230,13 +230,13 @@ function App() {
                   const { data } = await supabase
                   .from('customer')
                   .select('image, user_link')
-                  .eq('uid', user.id)
+                  .eq('uid', user?.id)
                   .single();
 
                   const {  data:dataid } = await supabase
                   .from('customer')
                   .select('uid')
-                  .eq('uid', user.id);
+                  .eq('uid', user?.id);
                 
                   // const { data: userData, error: userDataError } = await supabase
                   // .from('customer')
@@ -466,7 +466,7 @@ function App() {
     }
   }}
 >
-  Visit d
+  Visit e
 </button>
         </div>
       </div>
