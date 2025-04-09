@@ -233,10 +233,10 @@ function App() {
                   .eq('uid', user.id)
                   .single();
 
-                  // const {  data:dataid } = await supabase
-                  // .from('customer')
-                  // .select('uid')
-                  // .eq('uid', user.id);
+                  const {  data:dataid } = await supabase
+                  .from('customer')
+                  .select('uid')
+                  .eq('uid', user.id);
                 
                   // const { data: userData, error: userDataError } = await supabase
                   // .from('customer')
@@ -263,7 +263,7 @@ function App() {
                   const userNameFromStorage = localStorage.getItem(storageKey);
   
                   setId(user.id)
-                  if (userNameFromStorage ) {
+                  if (userNameFromStorage || dataid.length == 1) {
                       //setAuthMsg(`Uer ddata alredsady exists in localStorage: ${userNameFromStorage}`);
                       console.log('User data already exists in localStorage:', userNameFromStorage)
                       return; // Do not call the API idf the data is already set
@@ -466,7 +466,7 @@ function App() {
     }
   }}
 >
-  Visit g
+  Visit d
 </button>
         </div>
       </div>
