@@ -108,15 +108,15 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: smm, error } = await supabase
+      const { data: smmss, error } = await supabase
         .from('customer')
         .select('name, status, image')
-        .eq('ref', id);
+        .eq('ref', Number(id));
 
       if (error) {
         console.error('Error fetching customers:', error);
       } else {
-        setCustomers(smm);
+        setCustomers(smmss);
       }
 
       
@@ -474,7 +474,7 @@ function App() {
     }
   }}
 >
-  Visit a
+  Visit b
 </button>
         </div>
       </div>
