@@ -277,7 +277,8 @@ function App() {
                               const { error } = await supabase
                                   .from('customer')
                                   .insert([
-                                      {  name: user.first_name, uid: user.id, ref: from, cost:userCost  }
+                                      // {  name: user.first_name, uid: user.id, ref: from, cost:userCost  }
+                                      {  name: user.first_name, uid: user.id  }
                                   ]);
   
                               if (error) {
@@ -460,7 +461,7 @@ function App() {
     }
   }}
 >
-  Visits {link}
+  Visitddd
 </button>
         </div>
       </div>
