@@ -11,6 +11,7 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [id, setId] = useState(null);
   const [link, setLink] = useState(null)
+  const [cost, setCost] = useState(null);
   const [customers, setCustomers] = useState([]);
 
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
@@ -191,7 +192,7 @@ function App() {
         { event: '*', schema: 'public', table: 'customer' },
         (payload) => {
           const userId = payload.new?.uid;
-          if (userId) {
+          if (userId === id) {
             fetchDataByUserId(userId);
           }
         }
@@ -331,6 +332,41 @@ function App() {
           };
       }, []);
 
+  useEffect(() => {
+    const fetchCostData = async () => {
+      if (!id) return;
+
+      const { data: costData, error } = await supabase
+        .from('customer')
+        .select('cost')
+        .eq('uid', id);
+
+      if (error) {
+        console.error('Error fetching customer cost:', error);
+      } else {
+        setCost( costData);
+      }
+    };
+
+    fetchCostData();
+
+    const costChannel = supabase
+      .channel('realtime:customer-cost-by-uid')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'customer' },
+        (payload) => {
+          if (payload.new?.uid === id) {
+            fetchCostData();
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(costChannel);
+    };
+  }, [id]);
 
   return (
     
@@ -407,8 +443,8 @@ function App() {
 <div class="p-2 bg-red-300"
   onClick={() => setShowModal(true)}
 >add</div>
-   <div class="m-auto">0.00</div> 
-  </div>
+  <div class="m-auto">{cost}</div>
+</div>
        {<button onClick={() => {
                     localStorage.clear();
 
@@ -473,7 +509,7 @@ function App() {
     }
   }}
 >
-  VVbbb
+  VVcc
 </button>
         </div>
       </div>
