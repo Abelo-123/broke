@@ -154,6 +154,7 @@ function App() {
       if (error) {
         console.error('Error fetching customer by user ID:', error);
       } else {
+        alert("good")
         if (data.user_link) {
            setLink(data.user_link); // Update link state if user_link exists
          }
@@ -186,7 +187,7 @@ function App() {
 
         // Realtime subscription for customer table
         const subscription = supabase
-        .channel('realtimeb:customer')
+        .channel('realtime:customer')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'customer' }, (payload) => {
           // Assuming `id` is available in your component scope, for example, from `Telegram.WebApp.initDataUnsafe.user.id`
           const userId = payload.new?.uid;  // adjust according to the shape of payload if necessary
@@ -224,7 +225,7 @@ function App() {
                  
                   const { user } = Telegram.WebApp?.initDataUnsafe;
                   
-                  const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
+                  //const from = Telegram.WebApp?.initDataUnsafe?.start_param;                  
                
                   
                   const { data } = await supabase
@@ -238,11 +239,11 @@ function App() {
                   .select('uid')
                   .eq('uid', user.id);
                 
-                  const { data: userData, error: userDataError } = await supabase
-                  .from('customer')
-                  .select('cost')
-                  .eq('uid', user.id)  // Get the cost for the current user
-                  .limit(1);  // Ensure we only fetch one row (since the user id is unique)
+                  // const { data: userData, error: userDataError } = await supabase
+                  // .from('customer')
+                  // .select('cost')
+                  // .eq('uid', user.id)  // Get the cost for the current user
+                  // .signle();  // Ensure we only fetch one row (since the user id is unique)
 
                   if (userDataError) {
                     console.error('Error fetching user data:', userDataError);
@@ -256,7 +257,7 @@ function App() {
                   if (data?.image) {
                     setImageUrl(data.image);
                   }
-                  const userCost = userData[0].cost;  // Extract the cost value from the fetched data
+                 // const userCost = userData.cost;  // Extract the cost value from the fetched data
 
                   const storageKey = `userdata_name_${user.id}`; // Unique key for each user (or mini-app)
   
@@ -461,7 +462,7 @@ function App() {
     }
   }}
 >
-  Visitddd
+  Visiteee
 </button>
         </div>
       </div>
