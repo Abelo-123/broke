@@ -12,7 +12,6 @@ function App() {
   const [id, setId] = useState(1234);
   const [link, setLink] = useState(null)
   const [customers, setCustomers] = useState([]);
-  const [ydata, setYydata] = useState([])
 
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
   const handleImageChange = (event) => {
@@ -148,17 +147,16 @@ function App() {
     const fetchDataByUserId = async (userId) => {
       const { data, error } = await supabase
         .from('customer')
-        .select('name, user_link')
+        .select(' user_link')
         .eq('uid', userId)
         .single()
 
       if (error) {
         console.error('Error fetching customer by user ID:', error);
       } else {
-        setYydata(data);
-        // if (data.length > 0 && data[0].user_link) {
-        //   setLink(data.user_link); // Update link state if user_link exists
-        // }
+        if (data.user_link) {
+           setLink(data.user_link); // Update link state if user_link exists
+         }
       }
     };
 
@@ -186,10 +184,27 @@ function App() {
       }
     };
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+        // Realtime subscription for customer table
+        const subscription = supabase
+        .channel('realtimeb:customer')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'customer' }, (payload) => {
+          // Assuming `id` is available in your component scope, for example, from `Telegram.WebApp.initDataUnsafe.user.id`
+          const userId = payload.new?.uid;  // adjust according to the shape of payload if necessary
+  
+          if (userId) {
+            fetchDataByUserId(userId); // Re-fetch data on changes
+          }
+        })
+        .subscribe();
+  
+      // Cleanup: Remove the Telegram script and unsubscribe from the Supabase realtime subscription
+      return () => {
+        document.body.removeChild(script);
+        supabase.removeChannel(subscription);
+      };
+    }, []); // Empty dependency array to run once when the component mounts
+  
+  
 
     useEffect(() => {
       setLoading(true); 
@@ -445,7 +460,7 @@ function App() {
     }
   }}
 >
-  Visit {ydata.name}
+  Visits {link}
 </button>
         </div>
       </div>
