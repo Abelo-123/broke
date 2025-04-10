@@ -41,12 +41,20 @@ function App() {
       return false;
     }
 
-    if(data.length > 1) {
-      alert("already pending")
+    if(data.length == 1) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid",
+        text: "There's already pending request.",
+      })
     } else {
 
     if(amountWithdrawl > cost) {
-      alert("you need more")
+      Swal.fire({
+        icon: "error",
+        title: "Invalid",
+        text: "You cant afford that balance.",
+      })
     } else {
     const script = document.createElement('script');
     script.src = 'https://telegram.org/js/telegram-web-app.js?2';
@@ -110,11 +118,7 @@ function App() {
     const input = document.getElementById("yourInputId"); // Replace with your actual input's ID
     if (input) {
       navigator.clipboard.writeText(input.value).then(() => {
-        Swal.fire({
-          icon: "success",
-          title: "Copied",
-          text: "Copied to clipboard.",
-        });
+       
       }).catch((err) => {
         console.error("Clipboard copy failed:", err);
       });
@@ -489,9 +493,9 @@ function App() {
 
   return (
     
-    <div class="relative w-screen h-screen bg-red-100 flex flex-col items-center justify-center">
+    <div class="relative w-screen h-screen  flex flex-col items-center justify-center">
     {loading && (
-  <div className="w-screen grid place-content-center absolute h-screen bg-red-300" style={{ textAlign: "center", padding: "2rem" }}>
+  <div  className="w-screen  grid place-content-center absolute h-screen bg-black" style={{ textAlign: "center", padding: "2rem", zIndex: 100 }}>
     <div className="spinner"></div>
   </div>
     )}
@@ -513,18 +517,18 @@ function App() {
                 &times;
               </button>
              
-              <p className="text-sm text-gray-600 mb-4">This is your modal content.</p>
+              <p className="text-sm text-gray-600 mb-4">Your Referaal link</p>
               <div class="flex relative">
               <input
                 type="text"
                 id="yourInputId"
-                className="text-stone-500 w-full p-3 pr-10 bg-red-100 rounded-md"
+                className="text-stone-500 w-full p-3 pr-10 bg-gray-100 rounded-md"
                 value={`tg://resolve?domain=djdj22_bot&startapp=${id}`}
                 readOnly
               />
               <button
                 onClick={copyToClipboard}
-                className="absolute right-0 bg-red-100 hover:text-black"
+                className="absolute right-0 bg-gray-300 hover:text-black"
                 title="Copy to clipboard"
               >
                 📋 Copy
@@ -575,17 +579,17 @@ function App() {
               <input
                 type="text"
                 id="yourInputId"
-                className="text-stone-500 w-full p-3 pr-10 bg-red-100 rounded-md"
+                className="text-stone-500 w-full p-3 pr-10 bg-gray-100 rounded-md"
                 value={amountWithdrawl}
                 onChange={(e) => setAmountWithdrawl(e.target.value)}
                 
               />
               <button
                 onClick={() => sendWithdrawl(id)}
-                className="absolute right-0 bg-red-100 hover:text-black"
+                className="absolute right-0 bg-gray-200  hover:text-black"
                 title="Copy to clipboard"
               >
-               Send {id}
+               Send 
               </button>
               </div>
               <div style={{fontSize:'13px', color:'gray'}}>Withdrawl history</div>
@@ -610,47 +614,51 @@ function App() {
 
     return (
       <tr key={index} className={`${rowBg} text-gray-900`}>
-        <td className="px-4 py-2 border-b text-center">{index + 1}</td>
-        <td className="px-4 py-2 border-b">{data.created_at}</td>
-        <td className="px-4 py-2 border-b">{data.amount}</td>
+      <td className="px-4 py-2 border-b text-center">{index + 1}</td>
+      <td className="px-4 py-2 border-b">{data.created_at}</td>
+      <td className="px-4 py-2 border-b">{data.amount}</td>
       </tr>
     );
-  })}
-</tbody>
+    })}
+    </tbody>
 
-        </table>
+      </table>
 
-            </div>
-          </div>
-        </div>
+      </div>
+      </div>
+      </div>
       )}
-<div class="grid place-content-center grid-cols-2 gap-2 absolute p-3 bg-red-200 top-12 left-12"> 
-<div class="p-2 bg-red-300"
-  onClick={() => setShowModal(true)}
->add</div>
-   <div class="m-auto">{cost}</div> 
-  </div>
-  <div class="  w-12 absolute right-12 top-12   p-3 bg-red-800 "
-   onClick={() => setShowModalb(true)}
-  > 
-p
-  </div>
-       {<button onClick={() => {
+    <div class="grid place-content-center grid-cols-2 gap-2 absolute  top-12 left-12" style={{ zIndex: 0 }}> 
+    <div class="p-2 bg-gray-200 rounded-lg flex items-center justify-center"
+    onClick={() => setShowModal(true)}
+    >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+    </svg>
+    </div>
+     <div class="m-auto font-mono">{cost || 0.00}</div> 
+    </div>
+    <div style={{fontSize:'15PX'}} class="w-auto rounded-lg absolute bg-gray-100 font-mono font-bold right-12 top-12 p-2  flex items-center justify-center"
+     onClick={() => setShowModalb(true)}
+    > 
+      Withdrawl
+    </div>
+       {<button style={{display: 'none'}} onClick={() => {
                     localStorage.clear();
 
                 }}>
                     Clean
                 </button>}<br />
       <h2 class="underline font-mono text-xl font-bold">LOREM EpsuM</h2><br />
-      <div class="w-11/12 block gap-4  grid max-h-96 p-4 bg-red-200">
+      <div class="w-11/12 block gap-4  grid max-h-96 p-4">
       {!imageUrl && (
-        <div class="w-12/12  h-56 bg-red-300 p-3 flex place-content-center grid"
+        <div class="w-12/12  h-56 rounded-lg opacity-90 bg-gray-400  text-black-900 p-3 flex place-content-center grid"
          onClick={() => document.getElementById('imageInput').click()}
         >
             {image ? (
         <img src={image} alt="Selected" className="max-h-56 max-w-full object-contain" />
         ) : (
-          'Your Image'
+          'Insert Image'
         )}
           
             <input
@@ -666,7 +674,7 @@ p
         {image && (
           !isUploaded && (
         <div
-        class="w-full bg-red-400 rounded-lg p-4 py-4 text-center cursor-pointer animated-button"
+        class="w-full bg-gray-200 rounded-lg p-4 py-4 text-center cursor-pointer animated-button"
         onClick={handleImageUpload}
       >
         SEND
@@ -679,7 +687,7 @@ p
             value={link || "Waiting Link..."}
             id="copyInput"
             disabled
-            class="w-10/12 bg-red-300 rounded-lg p-4 py-3"
+            class="w-10/12 bg-gray-100 rounded-lg p-4 py-3"
           />
          <button
   style={{ background: "rgba(0, 0, 0, 0.1)" }}
@@ -699,7 +707,7 @@ p
     }
   }}
 >
-  VVee
+  Visit
 </button>
         </div>
       </div>
