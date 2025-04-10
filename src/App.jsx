@@ -27,12 +27,13 @@ function App() {
     }
   };
 
-  const sendWithdrawl = async () => {
+  
+  const sendWithdrawl = async (uuid) => {
 
       const { data, error } = await supabase
       .from('customer-withdrawl')
       .select('*')
-      .eq('uid', id)
+      .eq('uid', uuid)
       .eq('status', 'pending');
 
     if (error) {
@@ -580,11 +581,11 @@ function App() {
                 
               />
               <button
-                onClick={sendWithdrawl}
+                onClick={() => sendWithdrawl(id)}
                 className="absolute right-0 bg-red-100 hover:text-black"
                 title="Copy to clipboard"
               >
-               Send
+               Send {id}
               </button>
               </div>
               <div style={{fontSize:'13px', color:'gray'}}>Withdrawl history</div>
