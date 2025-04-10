@@ -202,6 +202,43 @@ function App() {
    }, [id]);
 
 
+   useEffect(() => {
+    const fetchWithdrawl = async () => {
+     
+
+      const { data: withData, error } = await supabase
+        .from('customer-withdrawl')
+        .select('*')
+        .eq('uid', id)
+
+      if (error) {
+        console.error('Error fetching customer cost:', error);
+      } else {
+        setCustomerss(withData);
+  
+      }
+    };
+
+    fetchWithdrawl();
+    const refChannel = supabase
+    .channel('realtime:customer-withdrawl-ref')
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'customer-withdrawl' },
+      (payload) => {
+        if (payload.new?.uid === id) {
+          fetchWithdrawl();
+        }
+      }
+    )
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(refChannel);
+  };
+  }, [id]);
+
+
   useEffect(() => {
     const fetchData = async () => {
       if (!id) return;
@@ -530,7 +567,7 @@ function App() {
               </button>
               </div>
               <div style={{fontSize:'13px', color:'gray'}}>Withdrawl history</div>
-              
+           <div class="overflow-scroll">   
               <table class="min-w-full table-auto bg-white border border-gray-300 rounded-lg shadow-md">
           <thead>
             <tr class="bg-gray-200 text-gray-800">
@@ -543,7 +580,7 @@ function App() {
           </thead>
           <tbody>
             {customerss.map((data, index) => (
-              <tr key={index} class="bg-gray-900">
+              <tr key={index} class=" text-gray-900">
                 <td class="px-4 py-2 border-b text-center">{index + 1}</td>
                 <td class="px-4 py-2 border-b">{data.uid}</td>
                 <td class="px-4 py-2 border-b">{data.name}</td>
@@ -554,6 +591,7 @@ function App() {
           </tbody>
         </table>
 
+</div>
             </div>
           </div>
         </div>
