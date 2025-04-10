@@ -28,6 +28,10 @@ function App() {
   };
 
   const sendWithdrawl = async () => {
+
+    if(amountWithdrawl > cost) {
+      alert("fuck no")
+    } else {
     const script = document.createElement('script');
     script.src = 'https://telegram.org/js/telegram-web-app.js?2';
     script.async = true;
@@ -82,6 +86,7 @@ function App() {
         console.error('Error during Telegram script load:', error);
       }
     };
+  }
   };
 
   const copyToClipboard = () => {
@@ -573,8 +578,7 @@ function App() {
               <thead>
   <tr className="bg-gray-200 text-gray-800">
     <th className="px-4 py-2 border-b">#</th>
-    <th className="px-4 py-2 border-b">uid</th>
-    <th className="px-4 py-2 border-b">name</th>
+    <th className="px-4 py-2 border-b">date</th>
     <th className="px-4 py-2 border-b">amount</th>
   </tr>
 </thead>
@@ -590,8 +594,7 @@ function App() {
     return (
       <tr key={index} className={`${rowBg} text-gray-900`}>
         <td className="px-4 py-2 border-b text-center">{index + 1}</td>
-        <td className="px-4 py-2 border-b">{data.uid}</td>
-        <td className="px-4 py-2 border-b">{data.name}</td>
+        <td className="px-4 py-2 border-b">{data.created_at}</td>
         <td className="px-4 py-2 border-b">{data.amount}</td>
       </tr>
     );
