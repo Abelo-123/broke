@@ -511,7 +511,7 @@ function App() {
           
             <div className="flex flex-col justify-end gap-2">
               <button
-                className="text-3xl bg-gray-300 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
+                className="text-3xl bg-gray-700 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
                 onClick={() => setShowModal(false)}
               >
                 &times;
@@ -528,7 +528,7 @@ function App() {
               />
               <button
                 onClick={copyToClipboard}
-                className="absolute right-0 bg-gray-300 hover:text-black"
+                className="absolute right-0 bg-gray-600 hover:text-black"
                 title="Copy to clipboard"
               >
                 📋 Copy
@@ -569,7 +569,7 @@ function App() {
           
             <div className="flex flex-col justify-end gap-2">
               <button
-                className="text-3xl bg-gray-300 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
+                className="text-3xl bg-gray-800 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
                 onClick={() => setShowModalb(false)}
               >
                 &times;
@@ -586,7 +586,7 @@ function App() {
               />
               <button
                 onClick={() => sendWithdrawl(id)}
-                className="absolute right-0 bg-gray-200  hover:text-black"
+                className="absolute right-0 bg-gray-700  hover:text-black"
                 title="Copy to clipboard"
               >
                Send 
@@ -704,7 +704,7 @@ function App() {
       Swal.fire({
         icon: "warning",
         title: "Invalid",
-        text: "Insert the image first.",
+        text: "Wait untill the link sent.",
       }); // Alert ifss the input dsoesn't contadidn a valid link
     }
   }}
