@@ -539,7 +539,7 @@ function App() {
 
 {showModalb && (
         <div className="fixed inset-0 z-50 flex  items-center justify-center bg-black/50">
-          <div className="bg-white rounded-xl p-6 w-96 shadow-xl">
+          <div className="bg-white rounded-xl p-6 w-90 shadow-xl">
           
             <div className="flex flex-col justify-end gap-2">
               <button
@@ -567,31 +567,39 @@ function App() {
               </button>
               </div>
               <div style={{fontSize:'13px', color:'gray'}}>Withdrawl history</div>
-           <div class="overflow-scroll">   
+          
+            
               <table class="min-w-full table-auto bg-white border border-gray-300 rounded-lg shadow-md">
-          <thead>
-            <tr class="bg-gray-200 text-gray-800">
-              <th class="px-4 py-2 border-b">#</th>
-              <th class="px-4 py-2 border-b">uid</th>
-              <th class="px-4 py-2 border-b">name</th>
-              <th class="px-4 py-2 border-b">amount</th>
-              <th class="px-4 py-2 border-b">status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {customerss.map((data, index) => (
-              <tr key={index} class=" text-gray-900">
-                <td class="px-4 py-2 border-b text-center">{index + 1}</td>
-                <td class="px-4 py-2 border-b">{data.uid}</td>
-                <td class="px-4 py-2 border-b">{data.name}</td>
-                <td class="px-4 py-2 border-b">{data.amount}</td>
-                <td class="px-4 py-2 border-b">{data.status}</td>
-              </tr>
-            ))}
-          </tbody>
+              <thead>
+  <tr className="bg-gray-200 text-gray-800">
+    <th className="px-4 py-2 border-b">#</th>
+    <th className="px-4 py-2 border-b">uid</th>
+    <th className="px-4 py-2 border-b">name</th>
+    <th className="px-4 py-2 border-b">amount</th>
+  </tr>
+</thead>
+<tbody>
+  {customerss.map((data, index) => {
+    const rowBg =
+      data.status === "pending"
+        ? "bg-blue-100"
+        : data.status === "done"
+        ? "bg-green-100"
+        : "";
+
+    return (
+      <tr key={index} className={`${rowBg} text-gray-900`}>
+        <td className="px-4 py-2 border-b text-center">{index + 1}</td>
+        <td className="px-4 py-2 border-b">{data.uid}</td>
+        <td className="px-4 py-2 border-b">{data.name}</td>
+        <td className="px-4 py-2 border-b">{data.amount}</td>
+      </tr>
+    );
+  })}
+</tbody>
+
         </table>
 
-</div>
             </div>
           </div>
         </div>
