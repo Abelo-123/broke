@@ -594,7 +594,7 @@ function App() {
               </div>
               <div style={{fontSize:'13px', color:'gray'}}>Withdrawl history</div>
           
-            
+            <div class="overflow-y-scroll h-96">
               <table class="min-w-full table-auto bg-white border border-gray-300 rounded-lg shadow-md">
               <thead>
   <tr className="bg-gray-200 text-gray-800">
@@ -623,13 +623,14 @@ function App() {
     </tbody>
 
       </table>
+      </div>
 
       </div>
       </div>
       </div>
       )}
     <div class="grid place-content-center grid-cols-2 gap-2 absolute  top-12 left-12" style={{ zIndex: 0 }}> 
-    <div class="p-2 bg-gray-200 rounded-lg flex items-center justify-center"
+    <div class="p-2  rounded-lg flex items-center justify-center"
     onClick={() => setShowModal(true)}
     >
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -638,7 +639,7 @@ function App() {
     </div>
      <div class="m-auto font-mono">{cost || 0.00}</div> 
     </div>
-    <div style={{fontSize:'15PX'}} class="w-auto rounded-lg absolute bg-gray-100 font-mono font-bold right-12 top-12 p-2  flex items-center justify-center"
+    <div style={{fontSize:'15PX'}} class="w-auto rounded-lg absolute font-mono font-bold right-12 top-12 p-2  flex items-center justify-center"
      onClick={() => setShowModalb(true)}
     > 
       Withdrawl
@@ -687,7 +688,8 @@ function App() {
             value={link || "Waiting Link..."}
             id="copyInput"
             disabled
-            class="w-10/12 bg-gray-100 rounded-lg p-4 py-3"
+            style={{ background: "rgba(0, 0, 0, 0.1)" }}
+            class="w-10/12  rounded-lg p-4 py-3"
           />
          <button
   style={{ background: "rgba(0, 0, 0, 0.1)" }}
