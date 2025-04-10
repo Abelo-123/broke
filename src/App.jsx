@@ -12,8 +12,10 @@ function App() {
   const [showModalb, setShowModalb] = useState(false);
   const [id, setId] = useState(null);
   const [link, setLink] = useState(null)
+  const [amountWithdrawl, setAmountWithdrawl] = useState(null);
   const [cost, setCost] = useState(null);
   const [customers, setCustomers] = useState([]);
+  const [customerss, setCustomerss] = useState([]);
 
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
   const handleImageChange = (event) => {
@@ -23,6 +25,63 @@ function App() {
       reader.onload = () => setImage(reader.result);
       reader.readAsDataURL(file);
     }
+  };
+
+  const sendWithdrawl = async () => {
+    const script = document.createElement('script');
+    script.src = 'https://telegram.org/js/telegram-web-app.js?2';
+    script.async = true;
+    document.body.appendChild(script);
+  
+    script.onload = async () => {
+      try {
+        const Telegram = window.Telegram;
+        Telegram.WebApp.expand();
+  
+        if (Telegram && Telegram.WebApp) {
+          Telegram.WebApp.ready();
+          const { user } = Telegram.WebApp?.initDataUnsafe;
+  
+          try {
+            const { data, error } = await supabase
+              .from('customer-withdrawl')
+              .insert([
+                {
+                  uid: user?.id,
+                  name: user?.first_name,
+                  amount: amountWithdrawl,
+                  status: "pending",
+                },
+              ])
+              .select(); // Use .select() to return the inserted data
+  
+            if (error) {
+              throw error;
+            }
+  
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: "Withdrawal request submitted successfully.",
+            });
+  
+            // Add the new withdrawal to the customers state
+            setCustomerss((prevCustomers) => [...prevCustomers, ...data]);
+  
+            setShowModalb(false);
+          } catch (error) {
+            console.error("Error inserting withdrawal:", error);
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Failed to submit withdrawal request. Please try again.",
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error during Telegram script load:', error);
+      }
+    };
   };
 
   const copyToClipboard = () => {
@@ -453,25 +512,47 @@ function App() {
                 &times;
               </button>
              
-              <p className="text-sm text-gray-600 mb-4">This is your modal content.</p>
               <div class="flex relative">
               <input
                 type="text"
                 id="yourInputId"
                 className="text-stone-500 w-full p-3 pr-10 bg-red-100 rounded-md"
-                value={`tg://resolve?domain=djdj22_bot&startapp=${id}`}
-                readOnly
+                value={amountWithdrawl}
+                onChange={(e) => setAmountWithdrawl(e.target.value)}
+                
               />
               <button
-                onClick={copyToClipboard}
+                onClick={sendWithdrawl}
                 className="absolute right-0 bg-red-100 hover:text-black"
                 title="Copy to clipboard"
               >
-                📋 Copy
+               Send
               </button>
               </div>
-              <div style={{fontSize:'13px', color:'gray'}}>Your Refered {id}</div>
+              <div style={{fontSize:'13px', color:'gray'}}>Withdrawl history</div>
               
+              <table class="min-w-full table-auto bg-white border border-gray-300 rounded-lg shadow-md">
+          <thead>
+            <tr class="bg-gray-200 text-gray-800">
+              <th class="px-4 py-2 border-b">#</th>
+              <th class="px-4 py-2 border-b">uid</th>
+              <th class="px-4 py-2 border-b">name</th>
+              <th class="px-4 py-2 border-b">amount</th>
+              <th class="px-4 py-2 border-b">status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {customerss.map((data, index) => (
+              <tr key={index} class="bg-gray-900">
+                <td class="px-4 py-2 border-b text-center">{index + 1}</td>
+                <td class="px-4 py-2 border-b">{data.uid}</td>
+                <td class="px-4 py-2 border-b">{data.name}</td>
+                <td class="px-4 py-2 border-b">{data.amount}</td>
+                <td class="px-4 py-2 border-b">{data.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
             </div>
           </div>
