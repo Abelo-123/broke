@@ -29,8 +29,23 @@ function App() {
 
   const sendWithdrawl = async () => {
 
+      const { data, error } = await supabase
+      .from('customer-withdrawl')
+      .select('*')
+      .eq('uid', id)
+      .eq('status', 'pending');
+
+    if (error) {
+      console.error('Error checking pending withdrawals:', error);
+      return false;
+    }
+
+    if(data.length > 1) {
+      alert("already pending")
+    } else {
+
     if(amountWithdrawl > cost) {
-      alert("fuck no")
+      alert("you need more")
     } else {
     const script = document.createElement('script');
     script.src = 'https://telegram.org/js/telegram-web-app.js?2';
@@ -87,6 +102,7 @@ function App() {
       }
     };
   }
+}
   };
 
   const copyToClipboard = () => {
@@ -578,7 +594,7 @@ function App() {
               <thead>
   <tr className="bg-gray-200 text-gray-800">
     <th className="px-4 py-2 border-b">#</th>
-    <th className="px-4 py-2 border-b">date</th>
+    <th className="px-4 py-2 border-b">Id</th>
     <th className="px-4 py-2 border-b">amount</th>
   </tr>
 </thead>
