@@ -630,12 +630,13 @@ function App() {
       </div>
       )}
     <div class="grid place-content-center grid-cols-2 gap-2 absolute  top-12 left-12" style={{ zIndex: 0 }}> 
-    <div class="p-2  rounded-lg flex items-center justify-center"
+    <div class="p-2 bg-gray-100 rounded-lg flex items-center justify-center"
     onClick={() => setShowModal(true)}
     >
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
     </svg>
+    Invite Friends
     </div>
      <div class="m-auto font-mono">{cost || 0.00}</div> 
     </div>
@@ -650,7 +651,11 @@ function App() {
                 }}>
                     Clean
                 </button>}<br />
-      <h2 class="underline font-mono text-xl font-bold">LOREM EpsuM</h2><br />
+      <p class="font-mono mx-24 font-bold">
+      Please send the payment to this account and upload a screenshot as proof of payment.
+      Bank Name  CBE<br />
+      Account Number 100092838<br />
+      Account Holder Addis</p><br />
       <div class="w-11/12 block gap-4  grid max-h-96 p-4">
       {!imageUrl && (
         <div class="w-12/12  h-56 rounded-lg opacity-90 bg-gray-400  text-black-900 p-3 flex place-content-center grid"
@@ -713,7 +718,9 @@ function App() {
 </button>
         </div>
       </div>
-      <i style={{fontSize:'15px'}} class="w-9/12 mt-2 text-wrap">lorem epsum dolor sit amet lorem epsum dolor sit amet lorem epsum dolor sit amet lorem epsum dolor sit amet</i>
+      <i style={{fontSize:'15px'}} class="w-9/12 mt-2 text-wrap">
+      After you upload the proof, the invite link will be sent to you shortly. Click "Visit" to join.
+      </i>
     </div>
   )
 }
