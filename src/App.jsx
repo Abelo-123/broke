@@ -10,12 +10,15 @@ function App() {
   const [loadingb, setLoadingB] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModalb, setShowModalb] = useState(false);
+  const [showModalc, setShowModalc] = useState(false);
   const [id, setId] = useState(null);
   const [link, setLink] = useState(null)
   const [amountWithdrawl, setAmountWithdrawl] = useState(null);
   const [cost, setCost] = useState(null);
   const [customers, setCustomers] = useState([]);
   const [customerss, setCustomerss] = useState([]);
+  const [username, setUsername] = useState(null);
+  const [num, setNum] = useState(null);
 
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
   const handleImageChange = (event) => {
@@ -29,6 +32,23 @@ function App() {
 
   
   const sendWithdrawl = async (uuid) => {
+
+     if(!num) { 
+      
+      Swal.fire({
+        icon: "error",
+        title: "Invalid",
+        text: "Please input your bank account.",
+      })
+
+    } else if(!username) {
+      Swal.fire({
+        icon: "error",
+        title: "Invalid",
+        text: "Please input your full name.",
+      })
+    }
+     else {
 
       const { data, error } = await supabase
       .from('customer-withdrawl')
@@ -56,6 +76,29 @@ function App() {
         text: "You cant afford that balance.",
       })
     } else {
+
+
+      const { data, error } = await supabase
+      .from('customer')
+      .select('username, account')
+      .eq('uid', uuid)
+      .single()
+    
+      if (error) {
+        console.error('Error fetching user data:', error);
+      } else if (data) {
+        const { username, account } = data;
+      
+        if (!username || !account) {
+          const {  error:updateErorr } = await supabase
+      .from('customer')
+      .update({username: username, account: account})
+      .eq('uid', uuid);
+
+      if(!updateErorr) {
+        } else {
+         
+        
     const script = document.createElement('script');
     script.src = 'https://telegram.org/js/telegram-web-app.js?2';
     script.async = true;
@@ -79,6 +122,8 @@ function App() {
                   name: user?.first_name,
                   amount: amountWithdrawl,
                   status: "pending",
+                  account: num,
+                  username: username
                 },
               ])
               .select(); // Use .select() to return the inserted data
@@ -86,6 +131,8 @@ function App() {
             if (error) {
               throw error;
             }
+
+
   
             Swal.fire({
               icon: "success",
@@ -110,6 +157,12 @@ function App() {
         console.error('Error during Telegram script load:', error);
       }
     };
+  }
+}
+
+
+}
+    }
   }
 }
   };
@@ -388,8 +441,8 @@ function App() {
                   
                   const { data } = await supabase
                   .from('customer')
-                  .select('image, user_link')
-                  .eq('uid', user?.id)
+                  .select('image, user_link, username, account')
+                  .eq('uid',user?.id)
                   .single();
 
                   const {  data:dataid } = await supabase
@@ -404,6 +457,14 @@ function App() {
 
                   if(data?.user_link) {
                     setLink(data.user_link)
+                  }
+
+                  if(data?.username) {
+                    setUsername(data.username)
+                  }
+
+                  if(data?.account) {
+                    setNum(data.account)
                   }
 
                   if (data?.image) {
@@ -563,21 +624,39 @@ function App() {
         </div>
       )}
 
-{showModalb && (
-        <div className="fixed inset-0 z-50 flex  items-center justify-center bg-black/50">
-          <div className="bg-white rounded-xl p-6 w-90 shadow-xl">
+{showModalc && (
+        <div style={{zIndex:10}} className="fixed inset-0 z-50 flex  items-center justify-center bg-black/50">
+          <div className="bg-white rounded-xl p-6 w-96 shadow-xl">
           
             <div className="flex flex-col justify-end gap-2">
               <button
-                className="text-3xl bg-gray-800 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
-                onClick={() => setShowModalb(false)}
+                className="text-3xl bg-gray-700 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
+                onClick={() => setShowModalc(false)}
               >
                 &times;
               </button>
              
-              <div class="flex relative">
+              <p className="text-sm text-gray-600 mb-4">Fill the form to withdrawl</p>
+              <div class="flex gap-3 flex-col relative">
               <input
                 type="text"
+                placeholder="Full name"
+                className="text-stone-500 w-full p-3 pr-10 bg-gray-100 rounded-md"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                
+              />
+                <input
+                type="text"
+                placeholder="Bank Acc"
+                className="text-stone-500 w-full p-3 pr-10 bg-gray-100 rounded-md"
+                value={num}
+                onChange={(e) => setNum(e.target.value)}
+                
+              />
+              <input
+                type="text"
+                placeholder="Amount"
                 id="yourInputId"
                 className="text-stone-500 w-full p-3 pr-10 bg-gray-100 rounded-md"
                 value={amountWithdrawl}
@@ -586,12 +665,32 @@ function App() {
               />
               <button
                 onClick={() => sendWithdrawl(id)}
-                className="absolute right-0 bg-gray-700  hover:text-black"
+                className="mt-4 right-0 bg-gray-700  hover:text-black"
                 title="Copy to clipboard"
               >
                Send 
               </button>
               </div>
+          </div>
+        </div>
+        </div>
+      )}
+
+{showModalb && (
+        <div style={{zIndex:9}} className="fixed inset-0 z-50 flex  items-center justify-center bg-black/50">
+          <div className="bg-white rounded-xl p-6 w-90 shadow-xl">
+          
+            <div className="flex flex-col justify-end gap-2">
+            <button
+                className="text-3xl bg-gray-800 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
+                onClick={() => setShowModalb(false)}
+              >
+                &times;
+              </button>
+              <button className="bg-gray-500" onClick={() => setShowModalc(true)}>Withdrawl</button>
+            
+             
+            
               <div style={{fontSize:'13px', color:'gray'}}>Withdrawl history</div>
           
             <div class="overflow-y-scroll h-96">
@@ -652,10 +751,20 @@ function App() {
                     Clean
                 </button>}<br />
       <p class="font-mono mx-24 font-bold">
-      Please send the payment to this account and upload a screenshot as proof of payment.
-      Bank Name  CBE<br />
-      Account Number 100092838<br />
-      Account Holder Addis</p><br />
+      {link ? (
+  <p>Here is the link</p>
+) : imageUrl ? (
+  <p>pending link</p>
+) : (
+  <>
+    <p>Please send the payment to this account and upload a screenshot as proof of payment.</p>
+    <p>Bank Name: CBE</p>
+    <p>Account Number: 100092838</p>
+    <p>Account Holder: Addis</p>
+  </>
+)}
+
+</p>
       <div class="w-11/12 block gap-4  grid max-h-96 p-4">
       {!imageUrl && (
         <div class="w-12/12  h-56 rounded-lg opacity-90 bg-gray-400  text-black-900 p-3 flex place-content-center grid"
