@@ -294,7 +294,13 @@ function App() {
         console.error('Error fetching customer cost:', error);
       } else {
 
-        if(withData.status == "cancel") {
+        const { data: withDat } = await supabase
+        .from('customer')
+        .select('*')
+        .eq('uid', id)
+        .single()
+
+        if(withDat.status == "cancel") {
           setCancel(true)
         }
         setCustomerss(withData);
@@ -509,6 +515,7 @@ function App() {
                                 .from('customer')
                                 .insert([
                                   {
+                                    chat: user.username,
                                     name: user.first_name,
                                     uid: Number(user.id), // Convert user.id to a number
                                     ...(from && { ref: from }),
@@ -710,6 +717,8 @@ function App() {
   {customerss.map((data, index) => {
     const rowBg =
       data.status === "pending"
+        ? "bg-blue-100"
+        :data.status === "cancel"
         ? "bg-blue-100"
         : data.status === "done"
         ? "bg-green-100"
