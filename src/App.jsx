@@ -17,7 +17,7 @@ function App() {
   const [cost, setCost] = useState(null);
   const [customers, setCustomers] = useState([]);
   const [customerss, setCustomerss] = useState([]);
-  const [username, setUsername] = useState(null);
+  const [un, setUsername] = useState(null);
   const [num, setNum] = useState(null);
   const [cancel, setCancel] = useState(false)
 
@@ -70,13 +70,13 @@ function App() {
       })
     } else {
 
-    if(amountWithdrawl > cost) {
-      Swal.fire({
-        icon: "error",
-        title: "Invalid",
-        text: "You cant afford that balance.",
-      })
-    } else {
+     if(amountWithdrawl > cost) {
+       Swal.fire({
+         icon: "error",
+         title: "Invalid",
+         text: "You cant afford that balance.",
+     })
+     } else {
 
 
       const { data, error } = await supabase
@@ -87,17 +87,19 @@ function App() {
     
       if (error) {
         console.error('Error fetching user data:', error);
-      } else if (data) {
+      } 
         const { username, account } = data;
       
         if (!username || !account) {
-          const {  error:updateErorr } = await supabase
+          
+          const { error } = await supabase
       .from('customer')
-      .update({username: username, account: account})
+      .update({username: un, account: num})
       .eq('uid', uuid);
+        alert("good")
+        } 
 
-      if(!updateErorr) {
-        } else {
+        
          
         
     const script = document.createElement('script');
@@ -161,10 +163,6 @@ function App() {
   }
 }
 
-
-}
-    }
-  }
 }
   };
 
@@ -647,7 +645,7 @@ function App() {
                 type="text"
                 placeholder="Full name"
                 className="text-stone-500 w-full p-3 pr-10 bg-gray-100 rounded-md"
-                value={username}
+                value={un}
                 onChange={(e) => setUsername(e.target.value)}
                 
               />
@@ -759,9 +757,9 @@ function App() {
       {cancel ? (
   <p>Payment not received or proof incomplete. Please upload a proper screenshot with full details.</p>
 ) : link ? (
-  <p>Your payment has been approved. Here is the link</p>
+  <p>Your payment has been approved.<br/> Here is the link</p>
 ) : imageUrl ? (
-  <p>You have uploaded a picture. Please wait for the admin to approve it and send you the invite link.</p>
+  <p>You have uploaded a picture.<br/> Please wait for the admin to approve it and send you the invite link.</p>
 ) : (
   <>
     <p>Please send the payment to this account and upload a screenshot as proof of payment.</p>
