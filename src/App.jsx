@@ -19,6 +19,7 @@ function App() {
   const [customerss, setCustomerss] = useState([]);
   const [username, setUsername] = useState(null);
   const [num, setNum] = useState(null);
+  const [cancel, setCancel] = useState(false)
 
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
   const handleImageChange = (event) => {
@@ -293,6 +294,10 @@ function App() {
       if (error) {
         console.error('Error fetching customer cost:', error);
       } else {
+
+        if(withData.status == "cancel") {
+          setCancel(true)
+        }
         setCustomerss(withData);
   
       }
@@ -751,10 +756,12 @@ function App() {
                     Clean
                 </button>}<br />
       <p class="font-mono mx-24 font-bold">
-      {link ? (
-  <p>Here is the link</p>
+      {cancel ? (
+  <p>Payment not received or proof incomplete. Please upload a proper screenshot with full details.</p>
+) : link ? (
+  <p>Your payment has been approved. Here is the link</p>
 ) : imageUrl ? (
-  <p>pending link</p>
+  <p>You have uploaded a picture. Please wait for the admin to approve it and send you the invite link.</p>
 ) : (
   <>
     <p>Please send the payment to this account and upload a screenshot as proof of payment.</p>
@@ -763,6 +770,7 @@ function App() {
     <p>Account Holder: Addis</p>
   </>
 )}
+
 
 </p>
       <div class="w-11/12 block gap-4  grid max-h-96 p-4">
