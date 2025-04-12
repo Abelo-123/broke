@@ -42,7 +42,7 @@ function App() {
         text: "Please input your bank account.",
       })
 
-    } else if(!username) {
+    } else if(!un) {
       Swal.fire({
         icon: "error",
         title: "Invalid",
@@ -126,7 +126,7 @@ function App() {
                   amount: amountWithdrawl,
                   status: "pending",
                   account: num,
-                  username: username
+                  username: un
                 },
               ])
               .select(); // Use .select() to return the inserted data
@@ -147,6 +147,7 @@ function App() {
             setCustomerss((prevCustomers) => [...prevCustomers, ...data]);
   
             setShowModalb(false);
+            setShowModalc(false);
           } catch (error) {
             console.error("Error inserting withdrawal:", error);
             Swal.fire({
