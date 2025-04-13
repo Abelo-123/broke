@@ -533,7 +533,7 @@ function App() {
                             
                               localStorage.setItem(storageKey, userName);
 
-                              window.location.href = `https://t.me/djdj22_bot`; 
+                              window.location.href = `https://t.me/SafonEt_bot`; 
 
                               
                           } catch (error) {
@@ -595,7 +595,7 @@ function App() {
                 type="text"
                 id="yourInputId"
                 className="text-stone-500 w-full p-3 pr-10 bg-gray-100 rounded-md"
-                value={`tg://resolve?domain=djdj22_bot&startapp=${id}`}
+                value={`tg://resolve?domain=SafonEt_bot&startapp=${id}`}
                 readOnly
               />
               <button
