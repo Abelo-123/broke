@@ -757,7 +757,7 @@ function App() {
     > 
       Withdrawl
     </div>
-       {<button style={{display: 'none'}} onClick={() => {
+       {<button style={{display: 'block'}} onClick={() => {
                     localStorage.clear();
 
                 }}>
