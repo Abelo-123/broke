@@ -837,7 +837,7 @@ function App() {
         icon: "warning",
         title: "Invalid",
         text: "Wait untill the link sent.",
-      }); // Alert ifss the input dsoesn't contadidn a valid link
+      }); // Alert difss the input dsoesn't contadidn a valid link
     }
   }}
 >
