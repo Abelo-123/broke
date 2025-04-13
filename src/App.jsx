@@ -744,7 +744,7 @@ function App() {
       </div>
       )}
     <div class="grid place-content-center grid-cols-2 gap-2 absolute  top-12 left-12" style={{ zIndex: 0 }}> 
-    <div class="p-2 bg-gray-100 rounded-lg flex items-center justify-center"
+    <div class="p-2  rounded-lg flex items-center justify-center"
     onClick={() => setShowModal(true)}
     >
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -752,7 +752,7 @@ function App() {
     </svg>
     Invite Friends
     </div>
-     <div class="m-auto font-mono">{cost || 0.00}</div> 
+     <div class="mr-auto my-auto font-mono">{cost || 0.00}</div> 
     </div>
     <div style={{fontSize:'15PX'}} class="w-auto rounded-lg absolute font-mono font-bold right-12 top-12 p-2  flex items-center justify-center"
      onClick={() => setShowModalb(true)}
