@@ -572,9 +572,9 @@ function App() {
   </div>
     )}
     {loadingb && (
-  <div className="w-screen grid place-content-center absolute h-screen bg-red-300" style={{ textAlign: "center", padding: "2rem" }}>
+  <div  className="w-screen  grid place-content-center absolute h-screen bg-black" style={{ textAlign: "center", padding: "2rem", zIndex: 100 }}>
     <div className="spinner"></div>
-    <h2 className="font-mono text-2xl mt-12">Inserting Image...</h2>
+    <h2 style={{ textAlign: "center", padding: "2rem", zIndex: 120 }} className="font-mono text-2xl mt-12">Inserting Image...</h2>
   </div>
     )}
      {showModal && (
@@ -702,7 +702,9 @@ function App() {
             
              
             
-              <div style={{fontSize:'13px', color:'gray'}}>Withdrawl history</div>
+              <div style={{fontSize:'13px', color:'gray'}}>
+              Your withdrawal history from referred family and friends.
+              </div>
           
             <div class="overflow-y-scroll h-96">
               <table class="min-w-full table-auto bg-white border border-gray-300 rounded-lg shadow-md">
@@ -757,13 +759,13 @@ function App() {
     > 
       Withdrawl
     </div>
-       {<button style={{display: 'block'}} onClick={() => {
+       {<button style={{display: 'none'}} onClick={() => {
                     localStorage.clear();
 
                 }}>
                     Clean
                 </button>}<br />
-      <p class="font-mono mx-24 font-bold">
+      <p style={{fontSize:'12px'}} class="font-mono mx-12 font-bold">
       {cancel ? (
   <p>Payment not received or proof incomplete. Please upload a proper screenshot with full details.</p>
 ) : link ? (
@@ -815,7 +817,7 @@ function App() {
         <div class="flex gap-3">
           <input
             type="text"
-            value={link || "Waiting Link..."}
+            value={link || "Waiting for the invite link..."}
             id="copyInput"
             disabled
             style={{ background: "rgba(0, 0, 0, 0.1)" }}
