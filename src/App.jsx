@@ -364,6 +364,48 @@ function App() {
     };
   }, [id]);
   
+
+  useEffect(() => {
+    const fetchDatac = async () => {
+      if (!id) return;
+  
+      const { data: , error } = await supabase
+        .from('customer')
+        .select('banned')
+        .eq('uid', id);
+  
+      if (error) {
+        console.error('Error fetching customers:', error);
+      } else {
+        if(smmss?.banned) {
+          if(smmss.banned == TRUE) {
+            window.location.href = `https://t.me/SafonEt_bot`;  
+          }
+        }
+      }
+    };
+  
+    fetchDatac();
+  
+    const refChannel = supabase
+      .channel('realtime:customer-by-banned')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'customer' },
+        (payload) => {
+          if (payload.new?.uid === id) {
+            fetchDatac();
+          }
+        }
+      )
+      .subscribe();
+  
+    return () => {
+      supabase.removeChannel(refChannel);
+    };
+  }, [id]);
+  
+
   useEffect(() => {
     const fetchDataByUserId = async (userId) => {
       const { data, error } = await supabase
@@ -372,18 +414,6 @@ function App() {
         .eq('uid', userId)
         .single();
 
-       
-        const {  data:dataid2 } = await supabase
-        .from('customer')
-        .select('banned')
-        .eq('uid', user?.id);
-
-        if(dataid2?.banned) {
-          if(dataid2.banned) {
-            window.location.href = `https://t.me/SafonEt_bot`;  
-          }
-        }
-  
       if (error) {
         console.error('Error fetching customer by user ID:', error);
       } else {
@@ -488,7 +518,7 @@ function App() {
 
                   
                   if(dataid2?.banned) {
-                    if(dataid2.banned) {
+                    if(dataid2.banned == TRUE) {
                       window.location.href = `https://t.me/SafonEt_bot`;  
                     }
                   }
@@ -869,7 +899,7 @@ function App() {
     }
   }}
 >
-  Visit-c
+  Visit-b
 </button>
         </div>
       </div>
