@@ -364,12 +364,11 @@ function App() {
     };
   }, [id]);
   
-
   useEffect(() => {
     const fetchDatac = async () => {
       if (!id) return;
   
-      const { data: smmss, error } = await supabase
+      const { data, error } = await supabase
         .from('customer')
         .select('banned')
         .eq('uid', id);
@@ -377,10 +376,9 @@ function App() {
       if (error) {
         console.error('Error fetching customers:', error);
       } else {
-        if(smmss?.banned) {
-          if(smmss.banned == TRUE) {
-            window.location.href = `https://t.me/SafonEt_bot`;  
-          }
+        const customer = data?.[0]; // Access the first row
+        if (customer?.banned === true) {
+          window.location.href = `https://t.me/SafonEt_bot`;  
         }
       }
     };
@@ -405,6 +403,7 @@ function App() {
     };
   }, [id]);
   
+ 
 
   useEffect(() => {
     const fetchDataByUserId = async (userId) => {
@@ -899,7 +898,7 @@ function App() {
     }
   }}
 >
-  Visit-b
+  Visit-c
 </button>
         </div>
       </div>
