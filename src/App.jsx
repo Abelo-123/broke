@@ -369,7 +369,7 @@ function App() {
     const fetchDatac = async () => {
       if (!id) return;
   
-      const { data: , error } = await supabase
+      const { data: smmss, error } = await supabase
         .from('customer')
         .select('banned')
         .eq('uid', id);
