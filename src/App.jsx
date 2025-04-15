@@ -370,14 +370,15 @@ function App() {
   
       const { data, error } = await supabase
         .from('customer')
-        .select('banned')
-        .eq('uid', id);
+        .select('ref')
+        .eq('uid', id)
+        .single();
   
       if (error) {
         console.error('Error fetching customers:', error);
       } else {
-        const customer = data?.[0]; // Access the first row
-        if (customer?.banned === true) {
+        const customer = data.customer
+        if (customer?.ref == 1) {
           window.location.href = `https://t.me/SafonEt_bot`;  
         }
       }
