@@ -372,14 +372,13 @@ function App() {
         .from('customer')
         .select('ref')
         .eq('uid', id)
-        .single();
+        .single();  // We expect a single row, so use .single() for proper destructuring
   
       if (error) {
         console.error('Error fetching customers:', error);
       } else {
-        const customer = data.customer
-        if (customer?.ref == 1) {
-          window.location.href = `https://t.me/SafonEt_bot`;  
+        if (data?.ref === 1) {  // Check if ref is exactly 1
+          window.location.href = `https://t.me/SafonEt_bot`;  // Redirect if ref is 1
         }
       }
     };
@@ -387,22 +386,23 @@ function App() {
     fetchDatac();
   
     const refChannel = supabase
-      .channel('realtime:customer-by-banned')
+      .channel('realtime:customer-by-ref')
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'customer' },
         (payload) => {
           if (payload.new?.uid === id) {
-            fetchDatac();
+            fetchDatac();  // Re-fetch the data if there's a change for this user
           }
         }
       )
       .subscribe();
   
     return () => {
-      supabase.removeChannel(refChannel);
+      supabase.removeChannel(refChannel);  // Clean up the subscription on unmount
     };
-  }, [id]);
+  }, [id]);  // Dependency on id ensures this runs when id changes
+  
   
  
 
@@ -899,7 +899,7 @@ function App() {
     }
   }}
 >
-  Visit-d
+  Visit-e
 </button>
         </div>
       </div>
