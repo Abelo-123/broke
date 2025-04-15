@@ -460,10 +460,24 @@ function App() {
                   .select('uid')
                   .eq('uid', user?.id);
 
+
+                  const {  data:dataid2 } = await supabase
+                  .from('customer')
+                  .select('banned')
+                  .eq('uid', user?.id);
+
+
                   
                   setId(user?.id)
                   
 
+
+                  
+                  if(dataid2?.banned) {
+                    if(dataid2.banned) {
+                      window.location.href = `https://t.me/SafonEt_bot`;  
+                    }
+                  }
 
                   if(data?.user_link) {
                     setLink(data.user_link)
@@ -841,7 +855,7 @@ function App() {
     }
   }}
 >
-  Visit
+  Visit-b
 </button>
         </div>
       </div>
