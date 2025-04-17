@@ -20,6 +20,9 @@ function App() {
   const [un, setUsername] = useState(null);
   const [num, setNum] = useState(null);
   const [cancel, setCancel] = useState(false)
+  const [bankname, setBankname] = useState(null)
+  const [banknum, setBanknum] = useState(null)
+  const [bankholder, setBankholder] = useState(null)
 
   const [imageUrl, setImageUrl] = useState(null); // To store the image URL from the customer table
   const handleImageChange = (event) => {
@@ -243,6 +246,50 @@ function App() {
     }
     return new Blob([new Uint8Array(array)], { type: mime });
   };
+
+
+
+  useEffect(() => {
+    const fetchInfoData = async () => {
+     
+
+      const {  data:dataid3, error } = await supabase
+  .from('customer')
+  .select('bankname, banknum, bankholder')
+  .eq('uid', 7159821786)
+  .single();
+
+      if (error) {
+        console.error('Error fetching customer cost:', error);
+      } else {
+
+        setBankname(dataid3.bankname);
+        setBanknum(dataid3.banknum);
+        setBankholder(dataid3.bankholder);
+
+      }
+    };
+
+    fetchInfoData();
+
+    const costChannel = supabase
+      .channel('realtime:customer-info-by-uid')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'customer' },
+        (payload) => {
+          if (payload.new?.uid == 7159821786) {
+            fetchInfoData();
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(costChannel);
+    };
+  }, []);
+
 
    useEffect(() => {
      const fetchCostData = async () => {
@@ -512,6 +559,8 @@ function App() {
 
 
                   
+               
+                  
                   setId(user?.id)
                   
 
@@ -526,6 +575,8 @@ function App() {
                   if(data?.user_link) {
                     setLink(data.user_link)
                   }
+
+                  
 
                   if(data?.username) {
                     setUsername(data.username)
@@ -832,11 +883,11 @@ function App() {
   <p>You have uploaded a picture.<br/> Please wait for the admin to approve it and send you the invite link.</p>
 ) : (
   <>
-    <p>Please send the payment to this account and upload a screenshot as proof of payment.</p>
-    <p>Bank Name: CBE</p>
-    <p>Account Number: 100092838</p>
-    <p>Account Holder: Addis</p>
-  </>
+ Bank Name: {bankname}<br/>
+ Bank Holder: {bankholder}<br/>
+ Bank ID: {banknum}<br />
+</>
+
 )}
 
 
