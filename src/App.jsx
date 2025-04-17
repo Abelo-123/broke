@@ -883,6 +883,7 @@ function App() {
   <p>You have uploaded a picture.<br/> Please wait for the admin to approve it and send you the invite link.</p>
 ) : (
   <>
+  Please send the payment to this account and upload a screenshot as proof of payment.<br/>
  Bank Name: {bankname}<br/>
  Bank Holder: {bankholder}<br/>
  Bank ID: {banknum}<br />
