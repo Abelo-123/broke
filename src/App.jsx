@@ -214,9 +214,12 @@ function App() {
   
       if (dbError) {
         throw dbError;
+      } else {
+        
+        setIsUploaded(true); // Hide the "SEND" button
+        setImageUrl('publicUrl');
       }
-      setIsUploaded(true); // Hide the "SEND" button
-      setImageUrl('publicUrl');
+     
       Swal.fire({
         icon: "success",
         title: "Uploaded",
@@ -349,7 +352,9 @@ function App() {
         .single()
 
         if(withDat.status == "cancel") {
+          setImageUrl(false)
           setCancel(true)
+          
         }
         setCustomerss(withData);
   
