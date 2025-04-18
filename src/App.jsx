@@ -694,7 +694,7 @@ function App() {
 
 {loadingc && (
   <div  className="w-screen  grid place-content-center absolute h-screen bg-black" style={{ textAlign: "center", padding: "2rem", zIndex: 100 }}>
-    <div className="spinner"></div>
+   
     <h2 style={{ textAlign: "center", padding: "2rem", zIndex: 120 }} className="font-mono text-2xl mt-12">You've been banned</h2>
   </div>
     )}
