@@ -8,6 +8,7 @@ function App() {
   const [isUploaded, setIsUploaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingb, setLoadingB] = useState(false);
+  const [loadingc, setLoadingC] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showModalb, setShowModalb] = useState(false);
   const [showModalc, setShowModalc] = useState(false);
@@ -425,7 +426,11 @@ function App() {
         console.error('Error fetching customers:', error);
       } else {
         if (data?.ref === 1) {  // Check if ref is exactly 1
-          window.location.href = `https://t.me/SafonEt_bot`;  // Redirect if ref is 1
+          setLoadingC(true);  // Set loading state to true
+          //window.location.href = `https://t.me/SafonEt_bot`;  // Redirect if ref is 1
+        } else {
+          setLoadingC(false);  // Set loading state to false if ref is not 1
+
         }
       }
     };
@@ -684,6 +689,13 @@ function App() {
   <div  className="w-screen  grid place-content-center absolute h-screen bg-black" style={{ textAlign: "center", padding: "2rem", zIndex: 100 }}>
     <div className="spinner"></div>
     <h2 style={{ textAlign: "center", padding: "2rem", zIndex: 120 }} className="font-mono text-2xl mt-12">Inserting Image...</h2>
+  </div>
+    )}
+
+{loadingc && (
+  <div  className="w-screen  grid place-content-center absolute h-screen bg-black" style={{ textAlign: "center", padding: "2rem", zIndex: 100 }}>
+    <div className="spinner"></div>
+    <h2 style={{ textAlign: "center", padding: "2rem", zIndex: 120 }} className="font-mono text-2xl mt-12">You've been banned</h2>
   </div>
     )}
      {showModal && (
