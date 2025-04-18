@@ -352,7 +352,7 @@ function App() {
         .single()
 
         if(withDat.status == "cancel") {
-          setImageUrl(false)
+          setImageUrl(true)
           setCancel(true)
           
         }
