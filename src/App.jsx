@@ -100,7 +100,6 @@ function App() {
       .from('customer')
       .update({username: un, account: num})
       .eq('uid', uuid);
-        alert("good")
         } 
 
         
@@ -873,7 +872,7 @@ function App() {
     </svg>
     Invite Friends
     </div>
-     <div class="mr-auto my-auto font-mono">{cost || 0.00}</div> 
+     <div class="mr-auto my-auto font-mono">{cost || 0.00} ETB</div> 
     </div>
     <div style={{fontSize:'15PX'}} class="w-auto rounded-lg absolute font-mono font-bold right-12 top-12 p-2  flex items-center justify-center"
      onClick={() => setShowModalb(true)}
@@ -896,9 +895,33 @@ function App() {
 ) : (
   <>
   Please send the payment to this account and upload a screenshot as proof of payment.<br/>
- Bank Name: {bankname}<br/>
- Bank Holder: {bankholder}<br/>
- Bank ID: {banknum}<br />
+ Bank Name: {bankname} 
+ <button
+    onClick={() => navigator.clipboard.writeText(bankname)}
+    className="ml-2 text-blue-500 hover:underline"
+    title="Copy Bank Name"
+  >
+    📋
+  </button>
+ <br/>
+ Bank Holder: {bankholder} 
+ <button
+    onClick={() => navigator.clipboard.writeText(bankholder)}
+    className="ml-2 text-blue-500 hover:underline"
+    title="Copy Bank Holder"
+  >
+    📋
+  </button>
+ <br/>
+ Bank ID: {banknum} 
+ <button
+    onClick={() => navigator.clipboard.writeText(banknum)}
+    className="ml-2 text-blue-500 hover:underline"
+    title="Copy Bank ID"
+  >
+    📋
+  </button>
+ <br />
 </>
 
 )}
@@ -913,7 +936,7 @@ function App() {
             {image ? (
         <img src={image} alt="Selected" className="max-h-56 max-w-full object-contain" />
         ) : (
-          'Insert Image'
+          'Click here to submit your payment receipt.'
         )}
           
             <input
