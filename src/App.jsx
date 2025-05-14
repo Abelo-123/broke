@@ -898,16 +898,16 @@ function App() {
   </p>
   </div>
 ) : link ? (
-  <div class="w-auto p-4 bg-blue-100">
+  <div style={{color:'black'}} class="w-auto p-4 bg-blue-300">
   <p>Your payment has been approved.<br/> Here is the link</p>
   </div>
 ) : imageUrl ? (
-  <div class="w-auto p-4 bg-blue-100">
+  <div style={{color:'black'}} class="w-auto p-4 bg-blue-300">
   <p>You have uploaded a picture.<br/> Please wait for the admin to approve it and send you the invite link.</p>
 </div>
 ) : (
   <>
-  <div class="w-auto p-4 bg-blue-100">
+  <div style={{color:'black'}} class="w-auto p-4 bg-blue-300">
   Please send the payment to this account and upload a screenshot as proof of payment.<br/>
   </div>
  🏦 Bank Name: {bankname} 
