@@ -910,7 +910,7 @@ function App() {
   <div class="w-auto p-4 bg-blue-100">
   Please send the payment to this account and upload a screenshot as proof of payment.<br/>
   </div>
- Bank Name: {bankname} 
+ 🏦 Bank Name: {bankname} 
 
  <button
     onClick={() => navigator.clipboard.writeText(bankname)}
@@ -920,7 +920,7 @@ function App() {
     📋
   </button>
  <br/>
- Bank Holder: {bankholder} 
+ 👨‍💼 Bank Holder: {bankholder} 
  <button
     onClick={() => navigator.clipboard.writeText(bankholder)}
     className="ml-2 text-blue-500 hover:underline"
@@ -929,7 +929,7 @@ function App() {
     📋
   </button>
  <br/>
- Bank ID: {banknum} 
+ 🆔 Bank ID: {banknum} 
  <button
     onClick={() => navigator.clipboard.writeText(banknum)}
     className="ml-2 text-blue-500 hover:underline"
