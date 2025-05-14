@@ -892,7 +892,7 @@ function App() {
                 </button>}<br />
       <p style={{fontSize:'12px'}} class="font-mono mx-12 font-bold">
       {cancel ? (
-         <div class="w-auto p-4 bg-blue-100">
+         <div style={{color:'black'}}class="w-auto p-4 bg-blue-300">
   <p>
   Payment not received or proof incomplete. Please upload a proper screenshot with full details.
   </p>
