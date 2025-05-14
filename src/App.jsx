@@ -892,15 +892,26 @@ function App() {
                 </button>}<br />
       <p style={{fontSize:'12px'}} class="font-mono mx-12 font-bold">
       {cancel ? (
-  <p>Payment not received or proof incomplete. Please upload a proper screenshot with full details.</p>
+         <div class="w-auto p-4 bg-blue-100">
+  <p>
+  Payment not received or proof incomplete. Please upload a proper screenshot with full details.
+  </p>
+  </div>
 ) : link ? (
+  <div class="w-auto p-4 bg-blue-100">
   <p>Your payment has been approved.<br/> Here is the link</p>
+  </div>
 ) : imageUrl ? (
+  <div class="w-auto p-4 bg-blue-100">
   <p>You have uploaded a picture.<br/> Please wait for the admin to approve it and send you the invite link.</p>
+</div>
 ) : (
   <>
+  <div class="w-auto p-4 bg-blue-100">
   Please send the payment to this account and upload a screenshot as proof of payment.<br/>
+  </div>
  Bank Name: {bankname} 
+
  <button
     onClick={() => navigator.clipboard.writeText(bankname)}
     className="ml-2 text-blue-500 hover:underline"
@@ -973,6 +984,7 @@ function App() {
             style={{ background: "rgba(0, 0, 0, 0.1)" }}
             class="w-10/12  rounded-lg p-4 py-3"
           />
+         {link && (
          <button
   style={{ background: "rgba(0, 0, 0, 0.1)" }}
   class="px-4 d-inline m-auto flex items-center gap-2"
@@ -992,7 +1004,7 @@ function App() {
   }}
 >
   Visit
-</button>
+</button>)}
         </div>
       </div>
       <i style={{fontSize:'15px'}} class="w-9/12 mt-2 text-wrap">
