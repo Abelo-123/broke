@@ -893,7 +893,7 @@ function App() {
                 }}>
                     Clean
                 </button>}<br />
-                <img src="https://abelo-123.github.io/broke/logo.jpg" alt="Logo" className="mr-auto mx-12 w-auto h-11 m-4" />
+                <img src="https://media-hosting.imagekit.io/ae7b4b382de74376/IMG_20250514_130526_707.jpg?Expires=1841825244&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=eJ1tNqjdnTcrl5oJp3euKm2XSDb5-fzL~AUhdCHt07zfOBnF08ucbfLIY5vFAAKZJ-LCqF1cUiBIdHS2n1~23d0u9zhl2xZReIK88k1AMuqolTC4o2NfS097vObslNSm~i~QX5bToM1vzO8n3A4sGUKzhMpNu8qvGJIMd8FhTjCS~8swCL35x0amSiTVCsgon1r6itgyajxecB9UcZpfbm3-hcAC5KMBnbCbGSS-qBE9NpjMjZcqsT0eAqY0JlKJqCo4vfj8b67kmK4zvrTY0qZUexhEolGFTyZ6nLDt0ElJlPtCmj5mQvAtygnvM8KqufeQYApSvQfnvnpaKKN37Q__" alt="Logo" className="mr-auto mx-12 w-auto h-11 m-4" />
       <p style={{fontSize:'12px'}} class="font-mono mx-12 font-bold">
       {cancel ? (
          <div style={{color:'black'}}class="w-auto p-4 bg-blue-300">
