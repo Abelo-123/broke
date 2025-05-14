@@ -893,7 +893,7 @@ function App() {
                 }}>
                     Clean
                 </button>}<br />
-                <img src="https://abelo-123.github.io/broke/src/assets/logo.jpg" alt="Logo" className="mr-auto mx-12 w-auto h-11 m-4" />
+                <img src="https://abelo-123.github.io/broke/logo.jpg" alt="Logo" className="mr-auto mx-12 w-auto h-11 m-4" />
       <p style={{fontSize:'12px'}} class="font-mono mx-12 font-bold">
       {cancel ? (
          <div style={{color:'black'}}class="w-auto p-4 bg-blue-300">
