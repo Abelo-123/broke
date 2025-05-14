@@ -863,8 +863,8 @@ function App() {
       </div>
       </div>
       )}
-    {link && (
-      <>
+  {link && (  
+    <>
     <div class="grid place-content-center grid-cols-2 gap-2 absolute  top-12 left-12" style={{ zIndex: 0 }}> 
     
         <div class="p-2  rounded-lg flex items-center justify-center"
@@ -883,13 +883,17 @@ function App() {
           Withdrawl
         </div>
         </>
-)}
+      )}
+        
+
+      
        {<button style={{display: 'none'}} onClick={() => {
                     localStorage.clear();
 
                 }}>
                     Clean
                 </button>}<br />
+                <img src="http://localhost:5173/broke/src/assets/logo.jpg" alt="Logo" className="mr-auto mx-12 w-auto h-11 m-4" />
       <p style={{fontSize:'12px'}} class="font-mono mx-12 font-bold">
       {cancel ? (
          <div style={{color:'black'}}class="w-auto p-4 bg-blue-300">
