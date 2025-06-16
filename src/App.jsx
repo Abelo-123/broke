@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
+import './customStyles.css'; // Import custom styles
 import { supabase } from './supabaseClient'; // Import Supabase client
 import Swal from "sweetalert2"; // Import SweetAlert2
 
@@ -677,345 +678,113 @@ function App() {
 
 
   return (
-    
-    <div class="relative w-screen h-screen  flex flex-col items-center justify-center">
-    {loading && (
-  <div  className="w-screen  grid place-content-center absolute h-screen bg-black" style={{ textAlign: "center", padding: "2rem", zIndex: 100 }}>
-    <div className="spinner"></div>
-  </div>
-    )}
-    {loadingb && (
-  <div  className="w-screen  grid place-content-center absolute h-screen bg-black" style={{ textAlign: "center", padding: "2rem", zIndex: 100 }}>
-    <div className="spinner"></div>
-    <h2 style={{ textAlign: "center", padding: "2rem", zIndex: 120 }} className="font-mono text-2xl mt-12">Inserting Image...</h2>
-  </div>
-    )}
-
-{loadingc && (
-  <div  className="w-screen  grid place-content-center absolute h-screen bg-black" style={{ textAlign: "center", padding: "2rem", zIndex: 100 }}>
-   
-    <h2 style={{ textAlign: "center", padding: "2rem", zIndex: 120 }} className="font-mono text-2xl mt-12">You've been banned</h2>
-  </div>
-    )}
-     {showModal && (
-        <div className="fixed inset-0 z-50 flex  items-center justify-center bg-black/50">
-          <div className="bg-white rounded-xl p-6 w-96 shadow-xl">
-          
-            <div className="flex flex-col justify-end gap-2">
-              <button
-                className="text-3xl bg-gray-700 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
-                onClick={() => setShowModal(false)}
-              >
-                &times;
-              </button>
-             
-              <p className="text-sm text-gray-600 mb-4">Your Referaal link</p>
-              <div class="flex relative">
-              <input
-                type="text"
-                id="yourInputId"
-                className="text-stone-500 w-full p-3 pr-10 bg-gray-100 rounded-md"
-                value={`tg://resolve?domain=SafonEt_bot&startapp=${id}`}
-                readOnly
-              />
-              <button
-                onClick={copyToClipboard}
-                className="absolute right-0 bg-gray-600 hover:text-black"
-                title="Copy to clipboard"
-              >
-                📋 Copy
-              </button>
-              </div>
-              <div style={{fontSize:'13px', color:'gray'}}>Your Refered {id}</div>
-              <ul class="list-none list-inside text-sm text-gray-600 mb-4">
-              {customers.map((customer, index) => (
-                <li
-                  key={index}
-                  className="border-t-2 border-black pt-3 p-2"
-                >
-  <div
-    className={`p-3 mr-2 rounded-md py-1 inline ${
-      customer.status === "approved"
-        ? "bg-green-200"
-        : customer.image
-        ? "bg-blue-200"
-        : "bg-red-200"
-    }`}
-  >
-  </div>
-                    {customer.name} {" "}
- 
- 
-                </li>
-              ))}
-            </ul>
-
-            </div>
-          </div>
-        </div>
-      )}
-
-{showModalc && (
-        <div style={{zIndex:10}} className="fixed inset-0 z-50 flex  items-center justify-center bg-black/50">
-          <div className="bg-white rounded-xl p-6 w-96 shadow-xl">
-          
-            <div className="flex flex-col justify-end gap-2">
-              <button
-                className="text-3xl bg-gray-700 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
-                onClick={() => setShowModalc(false)}
-              >
-                &times;
-              </button>
-             
-              <p className="text-sm text-gray-600 mb-4">Fill the form to withdrawl</p>
-              <div class="flex gap-3 flex-col relative">
-              <input
-                type="text"
-                placeholder="Full name"
-                className="text-stone-500 w-full p-3 pr-10 bg-gray-100 rounded-md"
-                value={un}
-                onChange={(e) => setUsername(e.target.value)}
-                
-              />
-                <input
-                type="text"
-                placeholder="Bank Acc"
-                className="text-stone-500 w-full p-3 pr-10 bg-gray-100 rounded-md"
-                value={num}
-                onChange={(e) => setNum(e.target.value)}
-                
-              />
-              <input
-                type="text"
-                placeholder="Amount"
-                id="yourInputId"
-                className="text-stone-500 w-full p-3 pr-10 bg-gray-100 rounded-md"
-                value={amountWithdrawl}
-                onChange={(e) => setAmountWithdrawl(e.target.value)}
-                
-              />
-              <button
-                onClick={() => sendWithdrawl(id)}
-                className="mt-4 right-0 bg-gray-700  hover:text-black"
-                title="Copy to clipboard"
-              >
-               Send 
-              </button>
-              </div>
-          </div>
-        </div>
-        </div>
-      )}
-
-{showModalb && (
-        <div style={{zIndex:9}} className="fixed inset-0 z-50 flex  items-center justify-center bg-black/50">
-          <div className="bg-white rounded-xl p-6 w-90 shadow-xl">
-          
-            <div className="flex flex-col justify-end gap-2">
-            <button
-                className="text-3xl bg-gray-800 text-gray-100 hover:bg-gray-400 px-1 w-12 py-1 rounded"
-                onClick={() => setShowModalb(false)}
-              >
-                &times;
-              </button>
-              <button className="bg-gray-500" onClick={() => setShowModalc(true)}>Withdrawl</button>
-            
-             
-            
-              <div style={{fontSize:'13px', color:'gray'}}>
-              Your withdrawal history from referred family and friends.
-              </div>
-          
-            <div class="overflow-y-scroll h-96">
-              <table class="min-w-full table-auto bg-white border border-gray-300 rounded-lg shadow-md">
-              <thead>
-  <tr className="bg-gray-200 text-gray-800">
-    <th className="px-4 py-2 border-b">#</th>
-    <th className="px-4 py-2 border-b">Id</th>
-    <th className="px-4 py-2 border-b">amount</th>
-  </tr>
-</thead>
-<tbody>
-  {customerss.map((data, index) => {
-    const rowBg =
-      data.status === "pending"
-        ? "bg-blue-100"
-        :data.status === "cancel"
-        ? "bg-blue-100"
-        : data.status === "done"
-        ? "bg-green-100"
-        : "";
-
-    return (
-      <tr key={index} className={`${rowBg} text-gray-900`}>
-      <td className="px-4 py-2 border-b text-center">{index + 1}</td>
-      <td className="px-4 py-2 border-b">{data.created_at}</td>
-      <td className="px-4 py-2 border-b">{data.amount}</td>
-      </tr>
-    );
-    })}
-    </tbody>
-
-      </table>
-      </div>
-
-      </div>
-      </div>
-      </div>
-      )}
-  {link && (  
-    <>
-    <div class="grid place-content-center grid-cols-2 gap-2 absolute  top-12 left-12" style={{ zIndex: 0 }}> 
-    
-        <div class="p-2  rounded-lg flex items-center justify-center"
-        onClick={() => setShowModal(true)}
-        >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
-        Invite Friends
-        </div>
-        <div class="mr-auto my-auto font-mono">{cost || 0.00} ETB</div> 
-        </div>
-        <div style={{fontSize:'15PX'}} class="w-auto rounded-lg absolute font-mono font-bold right-12 top-12 p-2  flex items-center justify-center"
-        onClick={() => setShowModalb(true)}
-        > 
-          Withdrawl
-        </div>
-        </>
-      )}
-        
-
-      
-       {<button style={{display: 'none'}} onClick={() => {
-                    localStorage.clear();
-
-                }}>
-                    Clean
-                </button>}<br />
-                <img src="https://media-hosting.imagekit.io/ae7b4b382de74376/IMG_20250514_130526_707.jpg?Expires=1841825244&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=eJ1tNqjdnTcrl5oJp3euKm2XSDb5-fzL~AUhdCHt07zfOBnF08ucbfLIY5vFAAKZJ-LCqF1cUiBIdHS2n1~23d0u9zhl2xZReIK88k1AMuqolTC4o2NfS097vObslNSm~i~QX5bToM1vzO8n3A4sGUKzhMpNu8qvGJIMd8FhTjCS~8swCL35x0amSiTVCsgon1r6itgyajxecB9UcZpfbm3-hcAC5KMBnbCbGSS-qBE9NpjMjZcqsT0eAqY0JlKJqCo4vfj8b67kmK4zvrTY0qZUexhEolGFTyZ6nLDt0ElJlPtCmj5mQvAtygnvM8KqufeQYApSvQfnvnpaKKN37Q__" alt="Logo" className="mr-auto mx-12 w-auto h-11 m-4" />
-      <p style={{fontSize:'12px'}} class="font-mono mx-12 font-bold">
-      {cancel ? (
-         <div style={{color:'black'}}class="w-auto p-4 bg-blue-300">
-  <p>
-  Payment not received or proof incomplete. Please upload a proper screenshot with full details.
-  </p>
-  </div>
-) : link ? (
-  <div style={{color:'black'}} class="w-auto p-4 bg-blue-300">
-  <p>Your payment has been approved.<br/> Here is the link</p>
-  </div>
-) : imageUrl ? (
-  <div style={{color:'black'}} class="w-auto p-4 bg-blue-300">
-  <p>You have uploaded a picture.<br/> Please wait for the admin to approve it and send you the invite link.</p>
-</div>
-) : (
-  <>
-  <div style={{color:'black'}} class="w-auto p-4 bg-blue-300">
-  Please send the payment to this account and upload a screenshot as proof of payment.<br/>
-  </div>
- 🏦 Bank Name: {bankname} 
-
- <button
-    onClick={() => navigator.clipboard.writeText(bankname)}
-    className="ml-2 text-blue-500 hover:underline"
-    title="Copy Bank Name"
-  >
-    📋
-  </button>
- <br/>
- 👨‍💼 Bank Holder: {bankholder} 
- <button
-    onClick={() => navigator.clipboard.writeText(bankholder)}
-    className="ml-2 text-blue-500 hover:underline"
-    title="Copy Bank Holder"
-  >
-    📋
-  </button>
- <br/>
- 🆔 Bank ID: {banknum} 
- <button
-    onClick={() => navigator.clipboard.writeText(banknum)}
-    className="ml-2 text-blue-500 hover:underline"
-    title="Copy Bank ID"
-  >
-    📋
-  </button>
- <br />
-</>
-
-)}
-
-
-</p>
-      <div class="w-11/12 block gap-4  grid max-h-96 p-4">
-      {!imageUrl && (
-        <div class="w-12/12  h-56 rounded-lg opacity-90 bg-gray-400  text-black-900 p-3 flex place-content-center grid"
-         onClick={() => document.getElementById('imageInput').click()}
-        >
-            {image ? (
-        <img src={image} alt="Selected" className="max-h-56 max-w-full object-contain" />
-        ) : (
-          'Click here to submit your payment receipt.'
-        )}
-          
-            <input
-              id="imageInput"
-              type="file"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={handleImageChange}
-            />
-         
-        </div>
-         )}
-        {image && (
-          !isUploaded && (
-        <div
-        class="w-full bg-gray-200 rounded-lg p-4 py-4 text-center cursor-pointer animated-button"
-        onClick={handleImageUpload}
-      >
-        SEND
-      </div>
-          )
-        )}
-        <div class="flex gap-3">
-          <input
-            type="text"
-            value={link || "Waiting for the invite link..."}
-            id="copyInput"
-            disabled
-            style={{ background: "rgba(0, 0, 0, 0.1)" }}
-            class="w-10/12  rounded-lg p-4 py-3"
-          />
-         {link && (
-         <button
-  style={{ background: "rgba(0, 0, 0, 0.1)" }}
-  class="px-4 d-inline m-auto flex items-center gap-2"
-  onClick={() => {
-    const input = document.getElementById("copyInput");
-    const url = input.value.trim(); // Get the URL from the input field
-
-    if (url && url.startsWith("http")) {
-      window.open(url, "_blank"); // Open in a new tab
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Invalid",
-        text: "Wait untill the link sent.",
-      }); // Alert difss the input dsoesn't contadidn a valid link
-    }
-  }}
->
-  Visit
-</button>)}
-        </div>
-      </div>
-      <i style={{fontSize:'15px'}} class="w-9/12 mt-2 text-wrap">
-      After you upload the proof, the invite link will be sent to you shortly. Click "Visit" to join.
-      </i>
+  <div className="container">
+    <div className="header">
+      <h1>Safon</h1>
+      <p>Upload payment screenshot as proof of payment</p>
     </div>
-  )
+    <div className="content">
+      <div className="section-title" id="paymentMethodsTitle">Payment Methods</div>
+      <div className="payment-methods" id="paymentMethodsContainer">
+        <div className="method">
+          <div className="method-name">BOA:</div>
+          <div className="method-detail">
+            {banknum || '110765312'}
+            <div className="holder-name">Holder: {bankholder || 'Addis Aschale'}</div>
+          </div>
+          <button className="copy-btn" onClick={() => navigator.clipboard.writeText(banknum || '110765312')}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
+            Copy
+          </button>
+        </div>
+        <div className="method">
+          <div className="method-name">CBE:</div>
+          <div className="method-detail">
+            1000695656452
+            <div className="holder-name">Holder: Addis Aschale</div>
+          </div>
+          <button className="copy-btn" onClick={() => navigator.clipboard.writeText('1000695656452')}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
+            Copy
+          </button>
+        </div>
+        <div className="method">
+          <div className="method-name">Telebirr:</div>
+          <div className="method-detail">
+            0923984596
+            <div className="holder-name">Holder: Addis Aschale</div>
+          </div>
+          <button className="copy-btn" onClick={() => navigator.clipboard.writeText('0923984596')}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
+            Copy
+          </button>
+        </div>
+        <div className="method">
+          <div className="method-name">Chapa:</div>
+          <div className="method-detail">
+            safon@chapa.com
+            <div className="holder-name">Holder: Addis Aschale</div>
+          </div>
+          <button className="copy-btn" onClick={() => navigator.clipboard.writeText('safon@chapa.com')}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
+            Copy
+          </button>
+        </div>
+      </div>
+      <div className="section-title">Upload Payment Proof</div>
+      <div className={`upload-container${image ? ' active' : ''}`} id="uploadContainer" onClick={() => document.getElementById('imageInput').click()}>
+        <div className="upload-icon">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+        <div className="upload-text">Drag & drop your screenshot here or click to browse</div>
+        <button className="upload-btn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
+          Upload Screenshot
+        </button>
+        <input
+          id="imageInput"
+          type="file"
+          accept="image/*"
+          style={{ display: 'none' }}
+          onChange={handleImageChange}
+        />
+      </div>
+      {image && (
+        <div className="preview-container" id="previewContainer" style={{ display: 'block' }}>
+          <img src={image} className="preview-image" alt="Payment proof preview" />
+          <button className="remove-btn" id="removeBtn" onClick={() => setImage(null)}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{marginRight: 5}}></svg>
+            Remove Image
+          </button>
+          {!isUploaded && (
+            <div className="upload-btn" onClick={handleImageUpload}>SEND</div>
+          )}
+        </div>
+      )}
+      {imageUrl && (
+        <div className="status-section" id="statusSection" style={{ display: 'block' }}>
+          <div className="status-label">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"></svg>
+            Status:
+          </div>
+          <div className="status">Waiting For Admin Approval</div>
+        </div>
+      )}
+      {link && (
+        <div className="status-success">Your payment has been approved. <a href={link} target="_blank" rel="noopener noreferrer">Join Now</a></div>
+      )}
+      {cancel && (
+        <div className="status-section" style={{ display: 'block', background: 'linear-gradient(135deg, #fff8e1, #ffecb3)' }}>
+          <div className="status-label">Payment not received or proof incomplete. Please upload a proper screenshot with full details.</div>
+        </div>
+      )}
+    </div>
+    <div className="footer">
+      Safon Payment Verification • Made for Telegram
+    </div>
+  </div>
+)
+
 }
 
 export default App
