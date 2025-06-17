@@ -679,13 +679,13 @@ function App() {
 
   return (
   <div className="container">
-    <div className="header">
-       {<button onClick={() => {
+      {<button onClick={() => {
                     localStorage.clear();
 
                 }}>
                     Clean
                 </button>}<br />
+    <div className="header">
       <h1>Safon</h1>
       <p>Upload payment screenshot as proof of payment</p>
     </div>
