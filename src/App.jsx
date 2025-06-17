@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './index.css';
-import './customStyles.css'; // Import custom styles
+import './customStyles.css';
 import { supabase } from './supabaseClient'; // Import Supabase client
 import Swal from "sweetalert2"; // Import SweetAlert2
 
@@ -680,6 +680,12 @@ function App() {
   return (
   <div className="container">
     <div className="header">
+       {<button onClick={() => {
+                    localStorage.clear();
+
+                }}>
+                    Clean
+                </button>}<br />
       <h1>Safon</h1>
       <p>Upload payment screenshot as proof of payment</p>
     </div>
@@ -783,8 +789,7 @@ function App() {
       Safon Payment Verification • Made for Telegram
     </div>
   </div>
-)
-
+  );
 }
 
 export default App
